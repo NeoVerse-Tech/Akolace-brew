@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Testimonials | AKOL’ACE Brew</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fdfdfd;
+      color: #003366;
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 28px;
+      margin-top: 40px;
+      color: #003366;
+    }
+
+    .testimonials {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-left: 2.5px ridge gold;
+      border-right:1.5px inset gold;
+      border-bottom: 1.0px inset gold;
+      border-top:  1.0px inset gold;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      width: 95%;
+      max-width: 500px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .card img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #003366;
+    }
+
+    .card-content {
+      flex: 1;
+    }
+
+    .quote {
+      font-size: 15px;
+      line-height: 1.5;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .author {
+      font-weight: bold;
+      color: #003366;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+/* Responsive adjustments for testimonials */
+@media screen and (max-width: 768px) {
+  .testimonials {
+    padding: 15px;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .card img {
+    margin-bottom: 10px;
+  }
+
+  .card-content {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .testimonials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+        
+  }
+
+  .card {
+    width: 
+    margin: 10px;
+    
+Width : 100%;
+max-width: 500px;
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .testimonials {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  .card {
+    width: 30%;
+    margin: 15px;
+  }
+}.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  color: #333;
+  padding: 10px 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.back-btn i {
+  font-size: 1.2rem;
+}
+
+.back-btn:hover {
+  background: #f0f0f0;
+  
+}
+
+
+  </style>
+</head>
+
+<body>
+
+<div class="back-btn" onclick="history.back()">
+  <i class="fas fa-arrow-left"></i> Back
+</div>
+
+
+  <h2>✨ What People Are Saying</h2>
+  <div class="testimonials">
+    <div class="card">
+      <img src="https://i.pravatar.cc/60?img=1" alt="Uche A." />
+      <div class="card-content">
+        <p class="quote">"I didn't expect much at first, but AKOL’ACE Brew surprised me. It gave me calm energy and clarity — not the usual sugar rush."</p>
+        <p class="author">— Uche A., Lagos</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/60?img=2" alt="Ruth O." />
+      <div class="card-content">
+        <p class="quote">"This is the only drink I've taken that made me feel good inside — like my system was really thanking me for it."</p>
+        <p class="author">— Ruth O., Ibadan</p>
+      </div>
+    </div>
+
+    <div class="card">
+<img src="https://i.pravatar.cc/60?img=3" alt="Emmanuel K." />
+      <div class="card-content">
+        <p class="quote">"My wife and I love it. It’s now our weekend treat, refreshing, smooth, and makes you feel better after every bottle."</p>
+        <p class="author">— Emmanuel K., Abeokuta</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/60?img=4" alt="Tobi F." />
+      <div class="card-content">
+        <p class="quote">"As a fitness coach, I recommend it to clients as a clean, natural choice. No crash, no regrets — just a healthy lift."</p>
+        <p class="author">— Tobi F., Lagos Island</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://i.pravatar.cc/60?img=5" alt="Chiamaka N." />
+      <div class="card-content">
+        <p class="quote">"AKOL’ACE Brew gave me that quiet confidence. I drank it and felt revived, energized, and light. It’s now part of my lifestyle."</p>
+        <p class="author">— Chiamaka N., Port Harcourt</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

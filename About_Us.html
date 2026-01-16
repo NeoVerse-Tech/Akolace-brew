@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About us</title>
+  <style>
+
+
+body {
+margin: 0;
+padding: 0;
+background-image: url("/08. BRAND PATTERN.jpg");
+background-color: rgba(0, 0, 0, 0.68); /* Dark overlay with 60% transparency */
+background-blend-mode: overlay; /* You can try: multiply, soft-light, darken */
+background-size: cover;
+background-attachment: fixed;
+background-repeat: no-repeat;
+}
+
+
+
+.container {
+ 
+  color: navy;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+  backdrop-filter: blur(10px);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: white;
+  background-size: 150% 500%;
+  animation: shiftBG 12.0s ease infinite;
+  border-radius: 15px;
+  padding: 35px;
+  margin: 22px auto;
+  max-width: 920px;
+  border: 2px blue ouset;
+  box-shadow: 0 0 25px rgba(30, 0, 255, 0.3);
+}
+@keyframes shiftBG {
+  0% {
+    background-position: 0% 10%;
+  }
+35% {
+    background-position: 35% 0%;
+  }
+  70% {
+    background-position: 10% 0%;
+  }
+  
+}
+
+
+h1, h2 {
+  color: #D3AF37;
+  text-shadow: 0 0 4px rgba(228, 205, 49, 0.3);
+  font-family: fantasy;
+}
+
+ul li {
+  margin: 12px 0;
+  font-size: 17px;
+}
+
+* {
+  box-sizing: border-box;
+}
+    
+.row::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+[class*="col-"] {
+  width: 100%;
+  float: left;
+}
+
+@media only screen and (min-width: 480px) {
+  .col-md-1 {width: 8.33333333%}
+  .col-md-2 {width: 16.66666667%}
+  .col-md-3 {width: 25%}
+  .col-md-4 {width: 33.33333333%}
+  .col-md-5 {width: 41.66666667%}
+  .col-md-6 {width: 50%}
+  .col-md-7 {width: 58.33333333%}
+  .col-md-8 {width: 66.66666667%}
+  .col-md-9 {width: 75%}
+  .col-md-10 {width: 83.33333333%}
+  .col-md-11 {width: 91.66666667%}
+  .col-md-12 {width: 100%}
+}
+
+@media only screen and (min-width: 768px) {
+  .col-l-1 {width: 8.33333333%}
+  .col-l-2 {width: 16.66666667%}
+  .col-l-3 {width: 25%}
+  .col-l-4 {width: 33.33333333%}
+  .col-l-5 {width: 41.66666667%}
+  .col-l-6 {width: 50%}
+  .col-l-7 {width: 58.33333333%}
+  .col-l-8 {width: 66.66666667%}
+  .col-l-9 {width: 75%}
+  .col-l-10 {width: 83.33333333%}
+  .col-l-11 {width: 91.66666667%}
+  .col-l-12 {width: 100%}
+}
+
+
+.img1 {
+width: 91.8%;
+height: 175.8px; /* You can adjust height */
+margin: 18px auto;
+border-radius: 18px;
+border: 2px outset #1E90FF;
+background-image: url('/botanical.jpg'); /* Set your image path */
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+animation: pulse 5s infinite, shimmer 3s infinite;
+box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.075);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    color: #D3AF37;
+    text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+  }
+  50% {
+    color: #F8E231;
+    text-shadow: 0 0 20px rgba(248, 226, 49, 0.9);
+  }
+  100% {
+    color: #D3AF37;
+    text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .faqs-section h2 {
+    font-size: 2em;
+  }
+  .accordion {
+    font-size: 1.2em;
+  }
+  .accordion .icon {
+    font-size: 1.5em;
+  }
+  .panel {
+    font-size: 1.2em;
+  }
+  .img1 {
+    font-size: 2em;
+  }
+.U {
+  color: navy;
+  font-family: 'Playfair Display', 'Lato', 'Montserrat', sans-serif;
+  font-size: 7vw;
+}
+}
+  
+h1, h2 {
+  font-family: 'Playfair Display', sans-serif;
+  color: #D3AF37;
+  font-size: 6vw;
+}
+
+p {
+  line-height: 1.7;
+  margin-bottom: 16px;
+  font-size: 4vw;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  padding: 10px 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 4vw;
+color:navy;
+}
+
+ul li span {
+  font-size: 5vw;
+  margin-right: 10px;
+}
+
+.highlight {
+  font-style: italic;
+  color: #1E90FF;
+  font-size: 4vw;
+color:navy;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.075);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+0% {
+color: #D3AF37;
+text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+}
+50% {
+color: #F8E231;
+text-shadow: 0 0 20px rgba(248, 226, 49, 0.9);
+}
+100% {
+color: #D3AF37;
+text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+}
+}
+
+/* Add some responsiveness for smaller screens */
+@media only screen and (max-width: 480px) {
+.img1 {
+font-size: 7vw;
+}
+h1, h2 {
+font-size: 10vw;
+}
+p {
+font-size: 4.2vw;
+}
+ul li {
+font-size: 5vw;
+color:navy;
+}
+ul li span {
+font-size: 6vw;
+
+}
+.highlight {
+font-size: 5vw;
+}
+
+.U {
+  color: navy;
+  font-family: 'Playfair Display', 'Lato', 'Montserrat', sans-serif; 
+  font-size :22.8px;
+}
+}
+
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  color: #333;
+  padding: 10px 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.back-btn i {
+  font-size: 1.2rem;
+}
+
+.back-btn:hover {
+  background: #f0f0f0;
+  
+}
+
+
+  </style>
+
+  <!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+     
+     
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  
+<div class="back-btn" onclick="history.back()">
+  <i class="fas fa-arrow-left"></i> Back
+</div>
+
+
+
+     <center><div class="img1">
+    
+  </div></center>
+     
+<div class="container">
+  <h1>More About AKOL’ACE Brew</h1>
+  <p>
+    <strong class="U">A New Standard in Natural Wellness Beverages</strong>
+  </p>
+  <p>
+    At <b>AKOL’ACE</b>, we believe health is not a luxury — it’s a daily lifestyle. Born out of a desire to revive the power of nature in our everyday drinks, AKOL’ACE Brew is our bold answer to modern wellness: a premium, Botanical Wellness wine blended with purposeful natural ingredients.
+  </p>
+  <p>
+    Our mission is to change how people see beverages, not just as a source of fun and taste but as a pathway to safety, wellness, and purposeful living. Every bottle of AKOL’ACE Brew supports your body’s core systems — heart, brain, immune, digestive, and reproductive — while delivering a refreshing taste that respects the heritage of palm wine.
+  </p>
+  <p>
+We're not just another beverage company.
+We’re a brand with soul. A purpose-driven team committed to helping people feel better, live better, and connect better — one sip at a time.
+  </p>
+  <p>
+    Whether for vitality, intimacy, or a clean health upgrade — <span class="highlight">AKOL’ACE Brew offers revival. Naturally.</span>
+  </p>
+
+  <h2>Key Benefits</h2>
+  <ul>
+    <li><span>🧠</span> Mental clarity & calm focus</li>
+    <li><span>❤️</span> Supports heart and blood flow</li>
+    <li><span>🔥</span> Gentle aphrodisiac energy</li>
+    <li><span>🛡️</span> Boosts immune resilience</li>
+<li><span>🦴</span> Strengthens bones and joints</li>
+      <li><span>🍃</span>A 99.9% natural alternative to synthetic drinks</li>
+    </ul>
+
+    <p class="highlight">Your body will Thank You, Your mood will also show it.</p>
+    <p><strong>Try AKOL’ACE Brew today — “If you love AKOL’ACE Brew, it's because you love yourself.”</strong></p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  
+  <style>
+
+* {
+  box-sizing: border-box;
+}
+html, body {
+background: linear-gradient(to bottom right, #002147, #f5d76e);
+
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  color: white;
+}
+
+
+
+/* Navbar */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+/* Logo */
+.diamond-logo {
+  width: 63px;
+  height: 82px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.diamond-logo img {
+  width: 100px;
+  height: auto;
+  transform: rotate(-45deg);
+  object-fit: contain;
+  border-radius: 20px;
+}
+
+/* Desktop Nav */
+.nav-links {
+  display: flex;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
+}
+.nav-links a {
+  color: gold;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+.nav-links a:hover {
+  color: #000;
+}
+
+/* Hamburger Icon */
+.menu-icon {
+  display: none;
+  font-size: 24px;
+  color: gold;
+  cursor: pointer;
+}
+
+.sidebar {
+  position: absolute; /* Or use 'fixed' if you want it to stay while scrolling */
+  top: 100%; /* Align just below the navbar */
+  left: 0;
+  width: 100%;
+  background: #111;
+  color: white;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+.sidebar.open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+.sidebar a:hover {
+  color: #F8E231;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .nav-links {
+    display: none;
+  }
+  .menu-icon {
+    display: block;
+  }
+}
+
+main, .hero {
+  margin-top: 100px;
+}
+
+
+/* Carousel */
+.carousel {
+  position: relative;
+  width: 90.50%;
+  max-width: 520px;
+  height: 480px;
+  margin: 120px auto 15px auto; /* added top margin */
+  border: 1px ridge gold;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+}
+
+.slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 0;
+}
+
+
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dots {
+  text-align: center;
+  margin-top: 2.5px;
+}
+
+.dot {
+  height: 8px;
+  width: 8px;
+  margin: 0 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+display: inline-block;
+  transition: background 0.3s ease;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: gold;
+}
+
+
+
+/* Mobile Portrait (≤ 480px) */
+@media screen and (max-width: 480px) {
+.sidebar {
+width: 100%;
+height: 100vh;
+top: 0;
+right: -100%;
+border-radius: 0;
+padding: 60px 20px;
+max-height: none;
+}
+}
+
+
+/* Tablets & Small Screens */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 70%;
+    margin-top: 4px;
+  }
+}
+
+/* Mobile Devices */
+
+
+
+
+
+@media screen and (min-width: 769px) {
+  .sidebar {
+    left: unset;
+    right: 0;
+    top: 70px; /* Below navbar */
+    height: auto; /* So it doesn't cover the full screen */
+    max-height: 80vh; /* Adjust as needed */
+    width: 250px;
+    padding: 20px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    margin-top: 12px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+ 
+  .navbar {
+    justify-content: space-between;
+  }
+}
+
+.akolace-content {
+  background: linear-gradient(to bottom right, #ffffff, #fffbe6);
+  border-radius: 16px;
+  padding: 40px 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  margin: 25px auto;
+  max-width: 1000px;
+  color: #002147;
+  transition: all 0.3s ease;
+}
+
+.akolace-content:hover {
+  box-shadow: 0 12px 32px rgba(212, 175, 55, 0.2);
+}
+/* background: #fdfdfd;
+padding: 40px 20px;
+color: #002147;
+font-family: 'Segoe UI', sans-serif;
+} */
+
+.akolace-content .container {
+max-width: 1000px;
+margin: auto;
+}
+
+.akolace-content .headline {
+color: #113a8f;
+font-size: 24px;
+font-weight: 700;
+margin-bottom: 10px;
+}
+
+.akolace-content .intro {
+font-size: 18px;
+font-weight: 500;
+color: #d4af37; /* gold tone */
+margin-bottom: 15px;
+}
+
+.akolace-content h3 {
+margin-top: 25px;
+font-size: 20px;
+color: #113a8f;
+}
+
+.akolace-content ul {
+list-style: none;
+padding-left: 0;
+}
+
+.akolace-content ul li {
+margin-bottom: 8px;
+position: relative;
+padding-left: 25px;
+}
+
+.akolace-content ul li::before {
+content: "✔";
+position: absolute;
+left: 0;
+color: gold;
+font-weight: bold;
+}
+
+.akolace-content blockquote {
+  margin-top: 15px;
+  font-style: italic;
+  color: #666;
+  border-left: 4px solid gold;
+  padding-left: 15px;
+}
+
+.cta-buttons {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.cta-buttons a {
+  text-decoration: none;
+}
+
+.cta-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #113a8f; /* Deep blue */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-buttons button i {
+  color: #f8d14b; /* Gold icons */
+  font-size: 18px;
+}
+
+.cta-buttons button:hover {
+  background: #f8d14b; /* Gold background on hover */
+  color: #113a8f; /* Blue text */
+}
+
+.cta-buttons button:hover i {
+  color: #113a8f; /* Blue icons on hover */
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cta-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .cta-buttons button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+
+/* Fade-in upward animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cta-buttons button {
+  animation: fadeInUp 0.8s ease forwards;
+  opacity: 0;
+  transform: translateY(15px);
+  animation-delay: 0.3s;
+}
+
+/* Button press effect */
+.cta-buttons button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) inset;
+}
+
+
+.contact-container {
+
+  max-width: 920px;
+  margin: 2px auto;
+  padding: 8px;
+  border-radius: 17px;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.3);
+  backdrop-filter: blur(15px);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  color: white;
+  border: 2px outset #1E90FF;
+}
+
+
+.order-btn {
+  position: absolute;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  color: gold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.order-btn:hover {
+  background: gold;
+  color: white;
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .order-btn {
+    display: none;
+  }
+}
+
+
+
+  </style>
+
+  
+<!-- Font Awesome (include in <head>) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+
+<body>
+     
+<header class="navbar">
+  <!-- Logo and nav bar links -->
+  <div class="diamond-logo">
+    <img src="Screenshot_20250622-141138.png" alt="Logo" />
+  </div>
+
+  <nav class="nav-links">
+    <a href="./index.html">Home</a>
+    <a href="./About_Us.html">About Us</a>
+    <a href="./FAQs.html">FAQs</a>
+    <a href="./Testimonials.html">Testimonials</a>
+    <a href="./Contact_Us.html">Contact</a>
+  </nav>
+
+  <div class="menu-icon" id="menuIcon" onclick="toggleSidebar()">
+    <i class="fas fa-bars"></i>
+  </div>
+
+  <a href="https://wa.me/2349068929746?text=I’m interested in pre-ordering AKOL’ACE Brew. Kindly assist me." target="_blank" class="order-btn">Order Now</a>
+
+  <!-- ✅ Sidebar for mobile placed correctly -->
+  <div class="sidebar" id="sidebar">
+    <a href="./index.html">Home</a>
+    <a href="./About_Us.html">About Us</a>
+    <a href="./FAQs.html">FAQs</a>
+    <a href="./Testimonials.html">Testimonials</a>
+    <a href="./Contact_Us.html">Contact</a>
+  </div>
+</header>
+
+
+
+  
+  <div class="carousel">
+    <div class="slides" id="slides">
+      <div class="slide"><img src="/Screenshot_20250618-151925.png" alt="Slide 1" /></div>
+      <div class="slide"><img src="/Screenshot_20250723-105150_2.jpg" alt="Slide 2" /></div>
+      <div class="slide"><img src="/IMG-20250205-WA0019.jpg" alt="Slide 3" /></div>
+      <div class="slide"><img src="/Screenshot_20250723-103858_1.jpg" alt="Slide 4" /></div>
+      
+      <div class="slide"><img src="/IMG-20250205-WA0021.jpg" alt="Slide 5" /></div>
+      
+      <div class="slide"><img src="/Screenshot_20250723-103958_1.jpg" alt="Slide 6" /></div>
+    </div>
+
+  </div>
+  <div class="dots" id="dots"></div>
+  
+  
+
+
+
+<div class="akolace-content">
+  <h2>🌿 Welcome to AKOL’ACE Brew</h2>
+  <p>Revive Your Spirit, Reward Your Body.</p>
+  <p>More than a drink. A new direction. A new discipline. A new kind of desire.
+One bottle at a time, we’re raising the standard — from casual refreshment to intentional nourishment.</p>
+
+
+
+  <h3>💛 What You’ll Feel</h3>
+<p>From the first sip, expect a subtle refreshing tingle, followed by a cool body ease, and a gradual rise in energy and mental clarity.
+Whether it's for wellness, bonding, or bold performance, AKOL’ACE Brew gives you a reason to sip with intention.</p>
+
+<h3>📦 Available In</h3>
+<ul>
+  <li>330ml PET bottles</li>
+  <li>200ml PET bottles</li>
+  <li>Event stands (by request)</li>
+</ul>
+
+
+<br/><br/>
+<h3>👑 For the Ones Who Know Better</h3>
+<blockquote>“We aren’t trying to be just another drink — we are the better drink, for the better version of you.”</blockquote>
+
+<div class="cta-buttons">
+  <a href="https://wa.me/2349068929746?text=Hi, I’d like to locate the nearest AKOL’ACE Brew depot. Can you help me?" target="_blank">
+    <button><i class="fas fa-map-marker-alt"></i> Find a Depot</button>
+  </a>
+
+  <a href="https://wa.me/2349068929746?text=Hello, I’d like to speak with someone about AKOL’ACE Brew." target="_blank">
+    <button><i class="fas fa-phone-alt"></i> Contact Us</button>
+  </a>
+
+  <a href="https://wa.me/2349068929746?text=Please add me to your newsletter or updates." target="_blank">
+    <button><i class="fas fa-envelope"></i> Subscribe</button>
+  </a>
+
+  <a href="https://wa.me/2349068929746?text=I’m interested in pre-ordering AKOL’ACE Brew. Kindly assist me." target="_blank">
+    <button><i class="fas fa-shopping-cart"></i> Pre-Order</button>
+  </a>
+</div>
+
+ <script>
+   
+ const menuIcon = document.getElementById('menuIcon');
+const sidebar = document.querySelector('.sidebar');
+
+function toggleSidebar() {
+  sidebar.classList.toggle('open');
+  menuIcon.classList.toggle('active');
+
+  // Switch icon
+  const icon = menuIcon.querySelector('i');
+  if (sidebar.classList.contains('open')) {
+    icon.classList.remove('fa-bars');
+    icon.classList.add('fa-times'); // close icon
+  } else {
+    icon.classList.remove('fa-times');
+    icon.classList.add('fa-bars');
+  }
+}
+
+
+   const slides = document.querySelectorAll('.slide');
+   const dotsContainer = document.getElementById('dots');
+   const carousel = document.querySelector('.carousel');
+   let currentIndex = 0;
+
+   function createDots() {
+     slides.forEach((_, index) => {
+       const dot = document.createElement('span');
+       dot.classList.add('dot');
+       if (index === 0) dot.classList.add('active');
+       dot.addEventListener('click', () => {
+         goToSlide(index);
+         resetTimer();
+       });
+       dotsContainer.appendChild(dot);
+     });
+   }
+
+   function goToSlide(index) {
+     slides.forEach((slide, i) => {
+       slide.style.opacity = i === index ? '1' : '0';
+       slide.style.zIndex = i === index ? '1' : '0';
+     });
+     currentIndex = index;
+     updateDots();
+   }
+
+   function updateDots() {
+     const dots = dotsContainer.querySelectorAll('.dot');
+     dots.forEach((dot, idx) => {
+
+
+
+
+
+       dot.classList.toggle('active', idx === currentIndex);
+     });
+   }
+
+   // Auto-slide config
+   const autoSlideSpeed = 3800; // ms
+   let slideInterval = setInterval(() => {
+     goToSlide((currentIndex + 1) % slides.length);
+   }, autoSlideSpeed);
+
+   function resetTimer() {
+     clearInterval(slideInterval);
+     slideInterval = setInterval(() => {
+       goToSlide((currentIndex + 1) % slides.length);
+     }, autoSlideSpeed);
+   }
+
+   // Pause on hover
+   carousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+   carousel.addEventListener('mouseleave', resetTimer);
+
+   // Swipe support
+   let startX = 0;
+   carousel.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+   carousel.addEventListener('touchend', e => {
+     let endX = e.changedTouches[0].clientX;
+     let diff = startX - endX;
+     if (Math.abs(diff) > 50) {
+       if (diff > 0) {
+         goToSlide((currentIndex + 1) % slides.length);
+       } else {
+         goToSlide((currentIndex - 1 + slides.length) % slides.length);
+       }
+       resetTimer();
+     }
+   });
+
+   createDots();
+   goToSlide(0);
+ </script>
+</body>
+
+</html>

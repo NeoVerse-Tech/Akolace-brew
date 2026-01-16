@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQs</title>
+
+  <style>
+  
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top left, navy 55%, #ffffff 10%) fixed;
+  background-size: cover;
+  color: #000000;
+  font-family: 'Playfair Display', serif;
+  text-shadow: 0 0 1px #1E90FF, 0 0 6px rgba(255, 255, 255, 0.15);
+  animation: bgShift 10s ease-in-out infinite alternate;
+}
+
+@keyframes bgShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.container {
+  backdrop-filter: blur(12px);
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 15px;
+  padding: 35px;
+  margin: 50px auto;
+  max-width: 850px;
+  box-shadow: 0 0 25px rgba(30, 144, 255, 0.3);
+}
+
+h1, h2 {
+  color: #D3AF37;
+  text-shadow: 0 0 6px rgba(218, 226, 49, 0.42);
+}
+
+ul li {
+  margin: 12px 0;
+  font-size: 17px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.faqs-container {
+  background-color: ;
+  max-width: 95%;
+  border-radius: 0.82em;
+  margin: 40px auto;
+  padding: 20px;
+  border: 2px outset #1E90FF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.faqs-section {
+  margin-bottom: 20px;
+}
+
+.faqs-section h2 {
+  margin-top: 0;
+  font-size: 6vw;
+}
+
+.accordion {
+  background: linear-gradient(145deg, #f0f0f0, #ffffff);
+  color: #444;
+  cursor: pointer;
+  padding: 18px 20px;
+  width: 95%;
+  border: 1px solid #ddd;
+  text-align: left;
+  outline: none;
+  font-size: 4vw;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  transition: all 0.3s ease-in-out;
+  border-radius: 7px;
+  margin: 5px 8px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);   
+border: 1px solid #ddd;
+
+animation: fade 0.6s ease-in-out;
+
+}
+
+.accordion:hover {
+  background-color: #e6f0ff;
+  border-color: #D3AF37;
+  border-width: 1.8px;
+  border-style: outset;
+}
+
+.accordion .icon {
+  position: absolute;
+  right: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #1E90FF;
+  transition: transform 0.3s ease;
+}
+
+.accordion.active .icon {
+  color: #000;
+  transform: rotate(180deg);
+}
+
+.panel {
+  padding: 0 20px 15px 20px;
+  display: none;
+  background-color: #f9f9f9;
+  font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 4vw;
+  border-left: 3px outset;
+border-right: 3px ridge;
+  border-bottom: 1.2px outset;
+border-bottom: 1.2px outset;
+  animation: fade 0.4s ease-in-out;
+  border-radius: 0 0 8px 8px;
+  margin-bottom : 33px;
+border-color: #D3AF37;
+
+}
+
+.img1 {
+width: 90%;
+height: 150px; /* You can adjust height */
+margin: 18px auto;
+border-radius: 18px;
+border: 2px outset #1E90FF;
+background-image: url('/botanical.jpg'); /* Set your image path */
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+animation: pulse 5s infinite, shimmer 3s infinite;
+box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.075);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    color: #D3AF37;
+    text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+  }
+  50% {
+    color: #F8E231;
+    text-shadow: 0 0 20px rgba(248, 226, 49, 0.9);
+  }
+  100% {
+    color: #D3AF37;
+    text-shadow: 0 0 10px rgba(211, 175, 55, 0.7);
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .faqs-section h2 {
+    font-size: 2em;
+  }
+  .accordion {
+    font-size: 1.2em;
+  }
+  .accordion .icon {
+    font-size: 1.5em;
+  }
+  .panel {
+    font-size: 1.2em;
+  }
+  .img1 {
+    font-size: 2em;
+  }
+}
+.H{
+  background-color:gold;
+}
+.accordion .icon {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #1E90FF;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.accordion.active .icon {
+  transform: translateY(-50%) rotate(180deg);
+  color: #D3AF37;
+}
+
+.back-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: #fff;
+  color: #333;
+  padding: 10px 12px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.back-btn i {
+  font-size: 1.2rem;
+}
+
+.back-btn:hover {
+  background: #f0f0f0;
+  
+}
+
+  </style>
+
+  
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+  
+
+
+
+<div class="back-btn" onclick="history.back()">
+  <i class="fas fa-arrow-left"></i> Back
+</div>
+
+  <center><div class="img1">
+    
+  </div></center>
+  
+  <br/>
+  
+
+      <h2>General FAQs</h2>
+      <div>
+<button class="accordion">
+  <i class="fas fa-chevron-down icon"></i>
+What is AKOL’ACE Brew?
+</button>
+      
+      <div class="panel">
+        <p>AKOL’ACE Brew is a premium, Botanical Wellness wine enriched with natural superfoods and functional ingredients that support overall wellness, energy, and gentle aphrodisiac effects.
+</p>
+      </div>
+     </div>
+      
+  <button class="accordion">
+    <i class="fas fa-chevron-down icon"></i>Is Akol'ace brew Alcoholic 
+  </button>
+       
+     
+      <div class="panel">
+        <p>Yes, AKOL’ACE Brew retains the natural alcohol content of traditionally fresh palm sap. However, it is lightly refined to preserve its cultural integrity while enhancing health benefits.</p>
+      </div>
+      
+  <button class="accordion">
+    <i class="fas fa-chevron-down icon"></i>What makes AKOL’ACE Brew different from regular palm wine or energy drinks?
+      </button>
+
+      <div class="panel">
+        <p>Unlike regular wine, AKOL’ACE Brew is thoughtfully blended with natural extracts that promote vitality, blood flow, digestion, and mental clarity — without caffeine or artificial additives.
+</p>
+      </div>
+      
+  <button class="accordion">
+    <i class="fas fa-chevron-down icon"></i>Can I drink AKOL’ACE Brew daily?</button>
+
+      <div class="panel">
+        <p>Yes, AKOL’ACE Brew is crafted for safe, moderate daily use. One bottle a day is ideal for general wellness, while two may be taken occasionally for aphrodisiac or performance purposes.
+</p>
+      </div>
+      
+      <button class="accordion">   
+<i class="fas fa-chevron-down icon"></i>Does AKOL’ACE Brew have any side effects?</button>
+<div class="panel">
+        <p>AKOL’ACE Brew is made with natural, safe ingredients. However, as with any functional beverage, moderation is advised — especially for individuals with existing medical conditions or sensitivities.
+
+</p>
+      </div>
+      
+<button class="accordion">
+
+  <i class="fas fa-chevron-down icon"></i>Is AKOL’ACE Brew suitable for women?</button>
+   
+
+      <div class="panel">
+        <p>Absolutely.While it has aphrodisiac qualities, the brew also promotes hormonal balance, energy, and immune support — benefits that apply to both men and women.</p>
+      </div>
+
+<button class="accordion">
+
+  <i class="fas fa-chevron-down icon"></i>How should AKOL’ACE Brew be stored? </button>
+  
+      <div class="panel">
+        <p>
+Keep in a cool, dry place away from direct sunlight. Refrigeration is ideal but not mandatory before opening. Once opened, consume immediately.
+  </p>
+      </div>
+      
+<button class="accordion">
+
+  <i class="fas fa-chevron-down icon"></i>How long does AKOL’ACE Brew last?   </button>
+  
+  <div class="panel">
+        <p>AKOL’ACE Brew is naturally preserved and has a shelf life of up to 6 months, thanks to low-heat pasteurization and preservative.</p>
+      </div>
+      
+<button class="accordion">
+
+  <i class="fas fa-chevron-down icon"></i>Can I mix AKOL’ACE Brew with other drinks?</button>
+  
+    
+      <div class="panel">
+        <p>While it’s best enjoyed on its own, it can be used as a base in cocktails or mocktails. However, mixing may reduce its natural benefits.</p>
+      </div>
+      
+    
+<button class="accordion">
+
+  <i class="fas fa-chevron-down icon"></i>Where can I buy AKOL’ACE Brew?</button>
+      <div class="panel">
+        <p>AKOL’ACE Brew is available through selected depots, partner retailers, and official sales agents. You can also follow us on social media for updates on availability near you.
+</p>
+      </div>
+      
+      
+    </div>
+ 
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const accordions = document.querySelectorAll(".accordion");
+
+    accordions.forEach(btn => {
+      btn.addEventListener("click", function() {
+        this.classList.toggle("active");
+        const panel = this.nextElementSibling;
+        panel.style.display = panel.style.display === "block" ? "none" : "block";
+
+        const icon = this.querySelector(".icon");
+        if (icon) {
+          icon.classList.toggle("fa-chevron-down");
+          icon.classList.toggle("fa-times");
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
