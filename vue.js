@@ -2504,7 +2504,7 @@ const HistoryPage = {
 
       loading: false,
 
-      useMockData: true,
+      useMockData: false,
 
       orderHistory: [],
 
@@ -2710,10 +2710,17 @@ const PublicMetricsPage = {
   computed: {
     // Decodes the URL parameter (e.g., Akol'ace%20Brew -> Akol'ace Brew)
     displayBrand() {
-      return this.$route.params.brand 
-        ? decodeURIComponent(this.$route.params.brand) 
-        : 'Akol’ace Brew';
-    },
+  
+  const slug =
+    this.$route.params.slug;
+  
+  if (!slug)
+    return "Akol'ace Brew";
+  
+  return slug
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, l => l.toUpperCase());
+},
 
     formattedRevenue() {
       return this.revenue.toLocaleString();
@@ -2852,7 +2859,7 @@ meta: { requiresAuth: true }
   component: PublicMetricsPage
 },*/
 {
-  path: '/public-metrics/:brand',
+  path: '/public-metrics/:slug',
   name: 'PublicMetrics',
   component: PublicMetricsPage
 },//✅
