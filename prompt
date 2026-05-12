@@ -1,0 +1,1668 @@
+const PreOrderFormPage = {
+  template: `
+  
+  <div id="preorder-page">
+
+    <button onclick="history.back()" class="preorder-back-btn">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="preorder-header">
+
+      <div class="preorder-title-wrap">
+
+        <h1 class="preorder-title">
+          Pre Order
+        </h1>
+
+      </div>
+
+      <p class="preorder-subtitle">
+        Reserve your AKOL’ACE Brew supply before public rollout.
+      </p>
+
+    </div>
+
+    <div class="preorder-card">
+
+<!-- SUPERMARKET -->
+<div class="preorder-field">
+
+  <label>
+    <i class="fas fa-store"></i>
+    Supermarket / Distributor
+  </label>
+
+  <input
+    type="text"
+    v-model="form.supermarket"
+    placeholder="e.g. Shoprite Ikeja, Jendol Abeokuta..."
+    class="preorder-input"
+    list="market-suggestions"
+  >
+
+  <datalist id="market-suggestions">
+
+    <option value="Shoprite"></option>
+    <option value="Jendol"></option>
+    <option value="Justrite"></option>
+    <option value="Market Square"></option>
+    <option value="SPAR"></option>
+
+  </datalist>
+
+</div>
+
+      <!-- SIZE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-bottle-water"></i>
+          Product Size
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.size">
+
+            <option disabled value="">
+              Choose Size
+            </option>
+
+         <option value="370ml">
+              370ml PET Bottle
+         </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- EMAIL -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-envelope"></i>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          v-model="form.email"
+          placeholder="Enter your email"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- LOCATION -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-location-dot"></i>
+          Delivery Location
+        </label>
+
+        <input
+          type="text"
+          v-model="form.location"
+          placeholder="Enter supermarket delivery location"
+          class="preorder-input"
+        >
+
+        <small class="helper-text">
+          This is where the supermarket delivery should arrive.
+        </small>
+
+      </div>
+
+      <!-- QUANTITY -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-layer-group"></i>
+          Quantity
+        </label>
+
+        <input
+          type="number"
+          min="1"
+          v-model="form.quantity"
+          placeholder="Enter quantity"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- PRICE -->
+      <div class="price-box">
+
+        <div class="price-top">
+
+          <span>
+            <i class="fas fa-wallet"></i>
+            Estimated Total
+          </span>
+
+        </div>
+
+        <div class="amount-display">
+          ₦{{ formattedPrice.toLocaleString() }}
+        </div>
+
+      </div>
+
+      <!-- NOTES -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-note-sticky"></i>
+          Additional Notes
+        </label>
+
+        <textarea
+          v-model="form.notes"
+          placeholder="Extra requests, preferences, or delivery instructions..."
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- BUTTON -->
+      <button
+        @click="submitOrder"
+        :disabled="loading"
+        class="submit-btn"
+      >
+
+        <i
+          v-if="!loading"
+          class="fas fa-paper-plane"
+        ></i>
+
+        {{ loading ? 'Processing...' : 'Submit Pre Order' }}
+
+      </button>
+
+    </div>
+
+    <footer class="preorder-footer">
+      Powered by AKOL’ACE Brew
+    </footer>
+
+  </div>
+  
+  `,
+
+  data() {
+
+    return {
+
+      loading: false,
+
+      form: {
+
+        supermarket: '',
+        size: '',
+        email: '',
+        location: '',
+        quantity: 1,
+        notes: ''
+
+      },
+
+      prices: {
+
+      
+        "370ml": 4000
+
+      }
+
+    }
+
+  },
+
+  computed: {
+
+    formattedPrice() {
+
+      if (!this.form.size) return 0
+
+      return (
+        this.prices[this.form.size] *
+        Number(this.form.quantity || 1)
+      )
+
+    }
+
+  },
+
+  methods: {
+
+    async submitOrder() {
+
+      if (
+        !this.form.supermarket ||
+        !this.form.email ||
+        !this.form.size
+      ) {
+
+        alert(
+          "Please complete the required fields."
+        )
+
+        return
+      }
+
+      this.loading = true
+
+      try {
+
+        const { error } = await window.sb
+          .from('pre_orders')
+          .insert([{
+
+            supermarket_name:
+              this.form.supermarket,
+
+            product_size:
+              this.form.size,
+
+            customer_email:
+              this.form.email,
+
+            delivery_location:
+              this.form.location,
+
+            quantity:
+              this.form.quantity,
+
+            total_price:
+              this.formattedPrice,
+
+            additional_notes:
+              this.form.notes,
+
+            created_at:
+              new Date()
+
+          }])
+
+        if (error) throw error
+
+        alert(
+          "Pre Order Submitted Successfully!"
+        )
+
+        // RESET FORM
+        this.form = {
+
+          supermarket: '',
+          size: '',
+          email: '',
+          location: '',
+          quantity: 1,
+          notes: ''
+
+        }
+
+      }
+
+      catch (err) {
+
+        console.error(err)
+
+        alert(
+          "Submission failed: " +
+          err.message
+        )
+
+      }
+
+      finally {
+
+        this.loading = false
+
+      }
+
+    }
+
+  }
+
+};
+
+
+const PreOrderFormPage = {
+
+  template: `
+
+  <div id="preorder-page">
+
+    <!-- BACK BUTTON -->
+    <button
+      onclick="history.back()"
+      class="preorder-back-btn"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- HEADER -->
+    <div class="preorder-header">
+
+      <div class="preorder-title-wrap">
+
+        <h1 class="preorder-title">
+          Wholesale Supply Request
+        </h1>
+
+      </div>
+
+      <p class="preorder-subtitle">
+        Register your store, supermarket, or distribution business
+        for early access to AKOL’ACE Brew supply.
+      </p>
+
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="preorder-card">
+
+      <!-- BUSINESS NAME -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-building"></i>
+          Business / Store Name
+        </label>
+
+        <input
+          type="text"
+          v-model="form.business_name"
+          placeholder="e.g. Jendol Superstores Abeokuta"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- CONTACT PERSON -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-user-tie"></i>
+          Contact Person
+        </label>
+
+        <input
+          type="text"
+          v-model="form.contact_person"
+          placeholder="Manager or representative name"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- PHONE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-phone-volume"></i>
+          Business Phone Number
+        </label>
+
+        <input
+          type="tel"
+          v-model="form.phone"
+          placeholder="+234..."
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- EMAIL -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-envelope-open-text"></i>
+          Business Email
+        </label>
+
+        <input
+          type="email"
+          v-model="form.email"
+          placeholder="Enter business email"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- BUSINESS TYPE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-store"></i>
+          Business Type
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.business_type">
+
+            <option disabled value="">
+              Select Business Type
+            </option>
+
+            <option>
+              Supermarket
+            </option>
+
+            <option>
+              Distributor
+            </option>
+
+            <option>
+              Retail Store
+            </option>
+
+            <option>
+              Lounge
+            </option>
+
+            <option>
+              Hotel
+            </option>
+
+            <option>
+              Restaurant
+            </option>
+
+            <option>
+              Wellness Store
+            </option>
+
+            <option>
+              Other
+            </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-bottle-water"></i>
+          Product Package
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.product_package">
+
+            <option disabled value="">
+              Select Package
+            </option>
+
+            <option>
+              AKOL’ACE Brew 370ml Carton
+            </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- PACK DETAILS -->
+      <div class="supply-info-box">
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-box"></i>
+            Bottles Per Carton
+          </span>
+
+          <span class="supply-value">
+            12 Bottles
+          </span>
+
+        </div>
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-tag"></i>
+            Wholesale Unit Price
+          </span>
+
+          <span class="supply-value">
+            ₦700 / Bottle
+          </span>
+
+        </div>
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-wallet"></i>
+            Carton Price
+          </span>
+
+          <span class="supply-value">
+            ₦8,400
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- CARTONS -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-boxes-stacked"></i>
+          Number of Cartons
+        </label>
+
+        <input
+          type="number"
+          min="1"
+          v-model="form.cartons"
+          placeholder="Enter carton quantity"
+          class="preorder-input"
+        >
+
+        <small class="helper-text">
+          Orders are processed in wholesale carton units.
+        </small>
+
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-location-dot"></i>
+          Delivery Address
+        </label>
+
+        <textarea
+          v-model="form.location"
+          placeholder="Enter delivery address"
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- TOTAL -->
+      <div class="price-box">
+
+        <div class="price-top">
+
+          <span>
+            <i class="fas fa-coins"></i>
+            Estimated Wholesale Total
+          </span>
+
+        </div>
+
+        <div class="amount-display">
+          ₦{{ formattedPrice.toLocaleString() }}
+        </div>
+
+      </div>
+
+      <!-- NOTES -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-note-sticky"></i>
+          Additional Notes
+        </label>
+
+        <textarea
+          v-model="form.notes"
+          placeholder="Branch instructions, preferred contact hours, partnership interest..."
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- SUBMIT -->
+      <button
+        @click="submitOrder"
+        :disabled="loading"
+        class="submit-btn"
+      >
+
+        <i
+          v-if="!loading"
+          class="fas fa-paper-plane"
+        ></i>
+
+        {{ loading ? 'Submitting...' : 'Submit Supply Request' }}
+
+      </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="preorder-footer">
+
+      Powered by AKOL’ACE Brew
+
+    </footer>
+
+  </div>
+
+  `,
+
+  data() {
+
+    return {
+
+      loading: false,
+
+      cartonPrice: 8400,
+
+      bottleCount: 12,
+
+      bottleUnitPrice: 700,
+
+      form: {
+
+        business_name: '',
+        contact_person: '',
+        phone: '',
+        email: '',
+        business_type: '',
+        product_package: '',
+        cartons: 1,
+        location: '',
+        notes: ''
+
+      }
+
+    }
+
+  },
+
+  computed: {
+
+    formattedPrice() {
+
+      return (
+        this.cartonPrice *
+        Number(this.form.cartons || 1)
+      )
+
+    }
+
+  },
+
+  methods: {
+
+    async submitOrder() {
+
+      if (
+
+        !this.form.business_name ||
+        !this.form.contact_person ||
+        !this.form.phone ||
+        !this.form.email ||
+        !this.form.business_type ||
+        !this.form.product_package
+
+      ) {
+
+        alert(
+          "Please complete all required fields."
+        )
+
+        return
+
+      }
+
+      this.loading = true
+
+      try {
+
+        const { error } = await window.sb
+
+          .from('pre_orders')
+
+          .insert([{
+
+            business_name:
+              this.form.business_name,
+
+            contact_person:
+              this.form.contact_person,
+
+            business_phone:
+              this.form.phone,
+
+            business_email:
+              this.form.email,
+
+            business_type:
+              this.form.business_type,
+
+            product_package:
+              this.form.product_package,
+
+            cartons:
+              this.form.cartons,
+
+            bottles_per_carton:
+              this.bottleCount,
+
+            unit_price:
+              this.bottleUnitPrice,
+
+            carton_price:
+              this.cartonPrice,
+
+            estimated_total:
+              this.formattedPrice,
+
+            delivery_address:
+              this.form.location,
+
+            additional_notes:
+              this.form.notes,
+
+            created_at:
+              new Date()
+
+          }])
+
+        if (error) throw error
+
+        alert(
+          "Wholesale supply request submitted successfully."
+        )
+
+        // RESET FORM
+        this.form = {
+
+          business_name: '',
+          contact_person: '',
+          phone: '',
+          email: '',
+          business_type: '',
+          product_package: '',
+          cartons: 1,
+          location: '',
+          notes: ''
+
+        }
+
+      }
+
+      catch (err) {
+
+        console.error(err)
+
+        alert(
+          "Submission failed: " +
+          err.message
+        )
+
+      }
+
+      finally {
+
+        this.loading = false
+
+      }
+
+    }
+
+  }
+
+};
+const PreOrderFormPage = {
+  template: `
+  
+  <div id="preorder-page">
+
+    <button onclick="history.back()" class="preorder-back-btn">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="preorder-header">
+
+      <div class="preorder-title-wrap">
+
+        <h1 class="preorder-title">
+          Pre Order
+        </h1>
+
+      </div>
+
+      <p class="preorder-subtitle">
+        Reserve your AKOL’ACE Brew supply before public rollout.
+      </p>
+
+    </div>
+
+    <div class="preorder-card">
+
+<!-- SUPERMARKET -->
+<div class="preorder-field">
+
+  <label>
+    <i class="fas fa-store"></i>
+    Supermarket / Distributor
+  </label>
+
+  <input
+    type="text"
+    v-model="form.supermarket"
+    placeholder="e.g. Shoprite Ikeja, Jendol Abeokuta..."
+    class="preorder-input"
+    list="market-suggestions"
+  >
+
+  <datalist id="market-suggestions">
+
+    <option value="Shoprite"></option>
+    <option value="Jendol"></option>
+    <option value="Justrite"></option>
+    <option value="Market Square"></option>
+    <option value="SPAR"></option>
+
+  </datalist>
+
+</div>
+
+      <!-- SIZE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-bottle-water"></i>
+          Product Size
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.size">
+
+            <option disabled value="">
+              Choose Size
+            </option>
+
+         <option value="370ml">
+              370ml PET Bottle
+         </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- EMAIL -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-envelope"></i>
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          v-model="form.email"
+          placeholder="Enter your email"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- LOCATION -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-location-dot"></i>
+          Delivery Location
+        </label>
+
+        <input
+          type="text"
+          v-model="form.location"
+          placeholder="Enter supermarket delivery location"
+          class="preorder-input"
+        >
+
+        <small class="helper-text">
+          This is where the supermarket delivery should arrive.
+        </small>
+
+      </div>
+
+      <!-- QUANTITY -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-layer-group"></i>
+          Quantity
+        </label>
+
+        <input
+          type="number"
+          min="1"
+          v-model="form.quantity"
+          placeholder="Enter quantity"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- PRICE -->
+      <div class="price-box">
+
+        <div class="price-top">
+
+          <span>
+            <i class="fas fa-wallet"></i>
+            Estimated Total
+          </span>
+
+        </div>
+
+        <div class="amount-display">
+          ₦{{ formattedPrice.toLocaleString() }}
+        </div>
+
+      </div>
+
+      <!-- NOTES -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-note-sticky"></i>
+          Additional Notes
+        </label>
+
+        <textarea
+          v-model="form.notes"
+          placeholder="Extra requests, preferences, or delivery instructions..."
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- BUTTON -->
+      <button
+        @click="submitOrder"
+        :disabled="loading"
+        class="submit-btn"
+      >
+
+        <i
+          v-if="!loading"
+          class="fas fa-paper-plane"
+        ></i>
+
+        {{ loading ? 'Processing...' : 'Submit Pre Order' }}
+
+      </button>
+
+    </div>
+
+    <footer class="preorder-footer">
+      Powered by AKOL’ACE Brew
+    </footer>
+
+  </div>
+  
+  `,
+
+  data() {
+
+    return {
+
+      loading: false,
+
+      form: {
+
+        supermarket: '',
+        size: '',
+        email: '',
+        location: '',
+        quantity: 1,
+        notes: ''
+
+      },
+
+      prices: {
+
+      
+        "370ml": 4000
+
+      }
+
+    }
+
+  },
+
+  computed: {
+
+    formattedPrice() {
+
+      if (!this.form.size) return 0
+
+      return (
+        this.prices[this.form.size] *
+        Number(this.form.quantity || 1)
+      )
+
+    }
+
+  },
+
+  methods: {
+
+    async submitOrder() {
+
+      if (
+        !this.form.supermarket ||
+        !this.form.email ||
+        !this.form.size
+      ) {
+
+        alert(
+          "Please complete the required fields."
+        )
+
+        return
+      }
+
+      this.loading = true
+
+      try {
+
+        const { error } = await window.sb
+          .from('pre_orders')
+          .insert([{
+
+            supermarket_name:
+              this.form.supermarket,
+
+            product_size:
+              this.form.size,
+
+            customer_email:
+              this.form.email,
+
+            delivery_location:
+              this.form.location,
+
+            quantity:
+              this.form.quantity,
+
+            total_price:
+              this.formattedPrice,
+
+            additional_notes:
+              this.form.notes,
+
+            created_at:
+              new Date()
+
+          }])
+
+        if (error) throw error
+
+        alert(
+          "Pre Order Submitted Successfully!"
+        )
+
+        // RESET FORM
+        this.form = {
+
+          supermarket: '',
+          size: '',
+          email: '',
+          location: '',
+          quantity: 1,
+          notes: ''
+
+        }
+
+      }
+
+      catch (err) {
+
+        console.error(err)
+
+        alert(
+          "Submission failed: " +
+          err.message
+        )
+
+      }
+
+      finally {
+
+        this.loading = false
+
+      }
+
+    }
+
+  }
+
+};
+
+
+const PreOrderFormPage = {
+
+  template: `
+
+  <div id="preorder-page">
+
+    <!-- BACK BUTTON -->
+    <button
+      onclick="history.back()"
+      class="preorder-back-btn"
+    >
+      <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <!-- HEADER -->
+    <div class="preorder-header">
+
+      <div class="preorder-title-wrap">
+
+        <h1 class="preorder-title">
+          Wholesale Supply Request
+        </h1>
+
+      </div>
+
+      <p class="preorder-subtitle">
+        Register your store, supermarket, or distribution business
+        for early access to AKOL’ACE Brew supply.
+      </p>
+
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="preorder-card">
+
+      <!-- BUSINESS NAME -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-building"></i>
+          Business / Store Name
+        </label>
+
+        <input
+          type="text"
+          v-model="form.business_name"
+          placeholder="e.g. Jendol Superstores Abeokuta"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- CONTACT PERSON -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-user-tie"></i>
+          Contact Person
+        </label>
+
+        <input
+          type="text"
+          v-model="form.contact_person"
+          placeholder="Manager or representative name"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- PHONE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-phone-volume"></i>
+          Business Phone Number
+        </label>
+
+        <input
+          type="tel"
+          v-model="form.phone"
+          placeholder="+234..."
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- EMAIL -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-envelope-open-text"></i>
+          Business Email
+        </label>
+
+        <input
+          type="email"
+          v-model="form.email"
+          placeholder="Enter business email"
+          class="preorder-input"
+        >
+
+      </div>
+
+      <!-- BUSINESS TYPE -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-store"></i>
+          Business Type
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.business_type">
+
+            <option disabled value="">
+              Select Business Type
+            </option>
+
+            <option>
+              Supermarket
+            </option>
+
+            <option>
+              Distributor
+            </option>
+
+            <option>
+              Retail Store
+            </option>
+
+            <option>
+              Lounge
+            </option>
+
+            <option>
+              Hotel
+            </option>
+
+            <option>
+              Restaurant
+            </option>
+
+            <option>
+              Wellness Store
+            </option>
+
+            <option>
+              Other
+            </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- PRODUCT -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-bottle-water"></i>
+          Product Package
+        </label>
+
+        <div class="select-wrap">
+
+          <select v-model="form.product_package">
+
+            <option disabled value="">
+              Select Package
+            </option>
+
+            <option>
+              AKOL’ACE Brew 370ml Carton
+            </option>
+
+          </select>
+
+          <i class="fas fa-chevron-down select-icon"></i>
+
+        </div>
+
+      </div>
+
+      <!-- PACK DETAILS -->
+      <div class="supply-info-box">
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-box"></i>
+            Bottles Per Carton
+          </span>
+
+          <span class="supply-value">
+            12 Bottles
+          </span>
+
+        </div>
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-tag"></i>
+            Wholesale Unit Price
+          </span>
+
+          <span class="supply-value">
+            ₦700 / Bottle
+          </span>
+
+        </div>
+
+        <div class="supply-info-item">
+
+          <span class="supply-label">
+            <i class="fas fa-wallet"></i>
+            Carton Price
+          </span>
+
+          <span class="supply-value">
+            ₦8,400
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- CARTONS -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-boxes-stacked"></i>
+          Number of Cartons
+        </label>
+
+        <input
+          type="number"
+          min="1"
+          v-model="form.cartons"
+          placeholder="Enter carton quantity"
+          class="preorder-input"
+        >
+
+        <small class="helper-text">
+          Orders are processed in wholesale carton units.
+        </small>
+
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-location-dot"></i>
+          Delivery Address
+        </label>
+
+        <textarea
+          v-model="form.location"
+          placeholder="Enter delivery address"
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- TOTAL -->
+      <div class="price-box">
+
+        <div class="price-top">
+
+          <span>
+            <i class="fas fa-coins"></i>
+            Estimated Wholesale Total
+          </span>
+
+        </div>
+
+        <div class="amount-display">
+          ₦{{ formattedPrice.toLocaleString() }}
+        </div>
+
+      </div>
+
+      <!-- NOTES -->
+      <div class="preorder-field">
+
+        <label>
+          <i class="fas fa-note-sticky"></i>
+          Additional Notes
+        </label>
+
+        <textarea
+          v-model="form.notes"
+          placeholder="Branch instructions, preferred contact hours, partnership interest..."
+          class="notes-area"
+        ></textarea>
+
+      </div>
+
+      <!-- SUBMIT -->
+      <button
+        @click="submitOrder"
+        :disabled="loading"
+        class="submit-btn"
+      >
+
+        <i
+          v-if="!loading"
+          class="fas fa-paper-plane"
+        ></i>
+
+        {{ loading ? 'Submitting...' : 'Submit Supply Request' }}
+
+      </button>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="preorder-footer">
+
+      Powered by AKOL’ACE Brew
+
+    </footer>
+
+  </div>
+
+  `,
+
+  data() {
+
+    return {
+
+      loading: false,
+
+      cartonPrice: 8400,
+
+      bottleCount: 12,
+
+      bottleUnitPrice: 700,
+
+      form: {
+
+        business_name: '',
+        contact_person: '',
+        phone: '',
+        email: '',
+        business_type: '',
+        product_package: '',
+        cartons: 1,
+        location: '',
+        notes: ''
+
+      }
+
+    }
+
+  },
+
+  computed: {
+
+    formattedPrice() {
+
+      return (
+        this.cartonPrice *
+        Number(this.form.cartons || 1)
+      )
+
+    }
+
+  },
+
+  methods: {
+
+    async submitOrder() {
+
+      if (
+
+        !this.form.business_name ||
+        !this.form.contact_person ||
+        !this.form.phone ||
+        !this.form.email ||
+        !this.form.business_type ||
+        !this.form.product_package
+
+      ) {
+
+        alert(
+          "Please complete all required fields."
+        )
+
+        return
+
+      }
+
+      this.loading = true
+
+      try {
+
+        const { error } = await window.sb
+
+          .from('pre_orders')
+
+          .insert([{
+
+            business_name:
+              this.form.business_name,
+
+            contact_person:
+              this.form.contact_person,
+
+            business_phone:
+              this.form.phone,
+
+            business_email:
+              this.form.email,
+
+            business_type:
+              this.form.business_type,
+
+            product_package:
+              this.form.product_package,
+
+            cartons:
+              this.form.cartons,
+
+            bottles_per_carton:
+              this.bottleCount,
+
+            unit_price:
+              this.bottleUnitPrice,
+
+            carton_price:
+              this.cartonPrice,
+
+            estimated_total:
+              this.formattedPrice,
+
+            delivery_address:
+              this.form.location,
+
+            additional_notes:
+              this.form.notes,
+
+            created_at:
+              new Date()
+
+          }])
+
+        if (error) throw error
+
+        alert(
+          "Wholesale supply request submitted successfully."
+        )
+
+        // RESET FORM
+        this.form = {
+
+          business_name: '',
+          contact_person: '',
+          phone: '',
+          email: '',
+          business_type: '',
+          product_package: '',
+          cartons: 1,
+          location: '',
+          notes: ''
+
+        }
+
+      }
+
+      catch (err) {
+
+        console.error(err)
+
+        alert(
+          "Submission failed: " +
+          err.message
+        )
+
+      }
+
+      finally {
+
+        this.loading = false
+
+      }
+
+    }
+
+  }
+
+};

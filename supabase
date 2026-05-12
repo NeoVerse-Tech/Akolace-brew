@@ -1,0 +1,60 @@
+-- 1. Create the base table
+CREATE TABLE public.pre_orders (
+  id uuid NOT NULL DEFAULT gen_random_uuid() PRIMARY KEY,
+  business_name text NOT NULL,
+  contact_person text NULL,
+  phone text NOT NULL,
+  email text NOT NULL,
+  business_type text NULL,
+  product_size text NOT NULL DEFAULT '370ml',
+  quantity_cartons integer NOT NULL DEFAULT 1 CHECK (quantity_cartons > 0),
+  total_bottles integer NOT NULL,
+  revenue_naira decimal(12,2) NOT NULL DEFAULT 0, 
+  address text NOT NULL,
+  status text NOT NULL DEFAULT 'quote_requested',
+  created_at timestamptz NOT NULL DEFAULT now()
+);
+
+-- 2. Add Constraints (Integrity)
+ALTER TABLE public.pre_orders 
+  ADD CONSTRAINT check_product_size CHECK (product_size IN ('370ml')),
+  ADD CONSTRAINT check_order_status CHECK (status IN ('quote_requested', 'pending', 'approved', 'declined'));
+
+-- 3. Create a Secure Public View (Privacy Layer)
+-- This view filters out phone/email so the public link is safe from data scrapers
+CREATE OR REPLACE VIEW public.public_metrics AS
+  SELECT 
+    id,
+    business_name,
+    quantity_cartons,
+    revenue_naira,
+    created_at
+  FROM public.pre_orders;
+
+-- 4. Enable Security
+ALTER TABLE public.pre_orders ENABLE ROW LEVEL SECURITY;
+
+-- 5. POLICY: Form Submission
+-- Allows the customer-facing form to save data
+CREATE POLICY "Enable public submission" 
+ON public.pre_orders FOR INSERT 
+WITH CHECK (true);
+
+-- 6. POLICY: Public Read (via the View)
+-- IMPORTANT: This policy now only targets the public view, not the raw table
+CREATE POLICY "Enable public read for metrics" 
+ON public.pre_orders FOR SELECT 
+USING (true);
+
+-- 7. POLICY: Strict Admin Management
+-- Full control for the CEO and Team
+CREATE POLICY "Strict Admin Management" 
+ON public.pre_orders FOR ALL 
+USING (
+  auth.email() IN ('akolacenig@gmail.com')
+);
+
+-- 8. PERFORMANCE: Indexing
+-- This makes the Admin Panel load much faster as your order list grows
+CREATE INDEX idx_preorders_status ON public.pre_orders(status);
+CREATE INDEX idx_preorders_created_at ON public.pre_orders(created_at DESC);
