@@ -1092,7 +1092,7 @@ const PreOrderFormPage = {
 
   try {
     // 3. Define the Business Logic Constants
-    const PRICE_PER_CARTON = 15000; // ₦15,000 per carton
+    const PRICE_PER_CARTON = 8400; // ₦8,400 per carton
     const calculatedRevenue = (this.form.cartons || 1) * PRICE_PER_CARTON;
 
     // 4. Insert into Supabase
@@ -1121,7 +1121,7 @@ const PreOrderFormPage = {
     
     setTimeout(() => {
       this.$router.push('/'); 
-    }, 2500);
+    }, 4000);
 
   } catch (err) {
     // 6. Handle Database/Network Errors
@@ -1687,29 +1687,29 @@ const AdminPanelPage = {
        SHARE METRICS (LINK ONLY)
     ========================= */
     async shareMetrics() {
-      // 1. Build the clean URL
-      const brand = encodeURIComponent("Akol'ace Brew");
-      const shareUrl = `${window.location.origin}/public-metrics/${brand}`;
+  // 1. Create a clean slug for the URL
+  const brandSlug = "akolace-brew"; 
+  
+  // 2. Build the URL (No hash needed due to your vercel.json rewrites)
+  const shareUrl = `${window.location.origin}/public-metrics/${brandSlug}`;
 
-      const shareData = {
-        title: "Akol'ace Brew - Live Metrics",
-        url: shareUrl
-      };
+  const shareData = {
+    title: "Akol'ace Brew - Live Metrics",
+    text: "View our live wholesale and supply metrics.",
+    url: shareUrl
+  };
 
-      try {
-        // Use native mobile sharing if available
-        if (navigator.share) {
-          await navigator.share(shareData);
-        } else {
-          // Fallback: Copy link to clipboard for desktop users
-          await navigator.clipboard.writeText(shareUrl);
-          alert("Public metrics link copied to clipboard");
-        }
-      } catch (err) {
-        // Handle cases where user cancels share or browser blocks it
-        console.warn("Sharing failed or cancelled:", err);
-      }
-    },
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+    } else {
+      await navigator.clipboard.writeText(shareUrl);
+      alert("Clean URL copied to clipboard!");
+    }
+  } catch (err) {
+    console.warn("Share failed:", err);
+  }
+},
 
     /* =========================
        LOGOUT

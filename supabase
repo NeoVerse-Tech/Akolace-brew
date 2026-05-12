@@ -58,3 +58,20 @@ USING (
 -- This makes the Admin Panel load much faster as your order list grows
 CREATE INDEX idx_preorders_status ON public.pre_orders(status);
 CREATE INDEX idx_preorders_created_at ON public.pre_orders(created_at DESC);
+
+
+-- This is the most common reason for empty data on public pages
+GRANT SELECT ON public.public_metrics TO anon;
+
+
+https://qsqzryesugnybibtjkzc.supabase.co
+
+sb_publishable_sgoetXLpJhcxOFkY4-JX4A_SoybvZzf
+
+
+AnB!Success@7722
+
+
+AnB%21Success%407722
+
+
