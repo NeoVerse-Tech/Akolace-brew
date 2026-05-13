@@ -2934,7 +2934,7 @@ const sb = CONFIG.init();
  * ROUTES
  */
 const routes = [
-  { path: '/nil', component: LandingPage },//✅
+  { path: '/', component: LandingPage },//✅
   { path: '/about', component: AboutUsPage },//✅
   { path: '/faqs', component: FAQSPage },//✅
   { path: '/testimonials', component: TestimonialsPage },//✅
