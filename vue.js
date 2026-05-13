@@ -2662,7 +2662,7 @@ const HistoryPage = {
 
 
 
-const PublicMetricsPage = {
+/*const PublicMetricsPage = {
   template: `
     <div id="public-metrics-page">
       <div class="metrics-header">
@@ -2777,8 +2777,124 @@ const PublicMetricsPage = {
       return `${Math.floor(hours / 24)} days ago`;
     }
   }
-};
+};*/
 
+
+const PublicMetricsPage = {
+  template: `
+    <div id="public-metrics-page">
+
+      <div class="metrics-header">
+        <div class="brand-pill">Akol'ace Brew</div>
+        <h1 class="title">Live Business Metrics</h1>
+        <p class="subtitle">Real-time snapshot of activity</p>
+      </div>
+
+      <div v-if="loading" class="metrics-loading">
+        <p>Loading metrics...</p>
+      </div>
+
+      <div v-else>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <h2>{{ totalOrders }}</h2>
+            <p>Packs Ordered</p>
+          </div>
+          <div class="metric-card">
+            <h2>₦{{ revenue.toLocaleString() }}</h2>
+            <p>Total Revenue</p>
+          </div>
+        </div>
+
+        <div class="activity-section">
+          <h3>Recent Activity</h3>
+          <div class="activity-list">
+            <div
+              v-for="item in preorderInfo"
+              :key="item.id"
+              class="activity-item"
+            >
+              <div class="dot"></div>
+              <div class="activity-text">
+                <strong>{{ item.name }}</strong>
+                <span>{{ item.time }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  `,
+
+  data() {
+    return {
+      loading: true,
+      totalOrders: 0,
+      revenue: 0,
+      preorderInfo: []
+    };
+  },
+
+  async mounted() {
+    await this.loadMetrics();
+  },
+
+  methods: {
+
+    async loadMetrics() {
+      try {
+
+        const client = window.sb || window.supabase.createClient(
+          "https://qsqzryesugnybibtjkzc.supabase.co",
+          "sb_publishable_sgoetXLpJhcxOFkY4-JX4A_SoybvZzf"
+        );
+
+        const { data, error } = await client
+          .from("public_metrics")
+          .select("id, business_name, quantity_cartons, revenue_naira, created_at")
+          .order("created_at", { ascending: false });
+
+        if (error) throw error;
+
+        const rows = data || [];
+
+        this.totalOrders = rows.reduce((sum, r) =>
+          sum + Number(r.quantity_cartons || 0), 0);
+
+        this.revenue = rows.reduce((sum, r) =>
+          sum + Number(r.revenue_naira || 0), 0);
+
+        this.preorderInfo = rows.slice(0, 6).map((r, i) => ({
+          id: r.id || i,
+          name: r.business_name || "New Order",
+          time: this.timeAgo(r.created_at)
+        }));
+
+      } catch (err) {
+        console.error("❌ PublicMetrics fetch error:", err.message);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    timeAgo(dateString) {
+      if (!dateString) return "Just now";
+      const seconds = Math.floor(
+        (new Date() - new Date(dateString)) / 1000
+      );
+      if (seconds < 60) return "Just now";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} min ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} hours ago`;
+      return `${Math.floor(hours / 24)} days ago`;
+    }
+
+  }
+};
 
 
 
@@ -2818,7 +2934,7 @@ const sb = CONFIG.init();
  * ROUTES
  */
 const routes = [
-  { path: '/', component: LandingPage },//✅
+  { path: '/nil', component: LandingPage },//✅
   { path: '/about', component: AboutUsPage },//✅
   { path: '/faqs', component: FAQSPage },//✅
   { path: '/testimonials', component: TestimonialsPage },//✅
@@ -2855,14 +2971,10 @@ meta: { requiresAuth: true }
 /* ---- Dashboard Metrics ---- */
 /*{
   path: '/',
-  name: 'PublicMetrics',
+ name: 'PublicMetrics',
   component: PublicMetricsPage
 },*/
-{
-  path: '/public-metrics/:slug',
-  name: 'PublicMetrics',
-  component: PublicMetricsPage
-},//✅
+{ path: '/public-metrics/:slug', component: PublicMetricsPage },//✅
     
     
   /* ---- Accessing Panel ---- */
@@ -2890,7 +3002,7 @@ meta: { requiresAuth: true }
 ========================= */
 
 const router = VueRouter.createRouter({
-  history: VueRouter.createWebHistory(),
+  history: VueRouter.createWebHashHistory(),
   routes
 });
 

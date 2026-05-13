@@ -64,6 +64,25 @@ CREATE INDEX idx_preorders_created_at ON public.pre_orders(created_at DESC);
 GRANT SELECT ON public.public_metrics TO anon;
 
 
+-- 1. Drop the conflicting catch-all admin policy
+DROP POLICY "Strict Admin Management" ON public.pre_orders;
+
+-- 2. Re-create scoped to only write operations (not SELECT)
+CREATE POLICY "Admin Insert" ON public.pre_orders FOR INSERT
+WITH CHECK (auth.email() IN ('akolacenig@gmail.com'));
+
+CREATE POLICY "Admin Update" ON public.pre_orders FOR UPDATE
+USING (auth.email() IN ('akolacenig@gmail.com'))
+WITH CHECK (auth.email() IN ('akolacenig@gmail.com'));
+
+CREATE POLICY "Admin Delete" ON public.pre_orders FOR DELETE
+USING (auth.email() IN ('akolacenig@gmail.com'));
+
+-- 3. Grant anon access to the view explicitly
+GRANT SELECT ON public.public_metrics TO anon;
+GRANT SELECT ON public.public_metrics TO authenticated;
+
+   
 https://qsqzryesugnybibtjkzc.supabase.co
 
 sb_publishable_sgoetXLpJhcxOFkY4-JX4A_SoybvZzf
