@@ -1687,11 +1687,8 @@ const AdminPanelPage = {
        SHARE METRICS (LINK ONLY)
     ========================= */
     async shareMetrics() {
-  // 1. Create a clean slug for the URL
-  const brandSlug = "akolace-brew"; 
-  
-  // 2. Build the URL (No hash needed due to your vercel.json rewrites)
-  const shareUrl = `${window.location.origin}/public-metrics/${brandSlug}`;
+
+  const shareUrl = `${window.location.origin}/public-metrics`;
 
   const shareData = {
     title: "Akol'ace Brew - Live Metrics",
@@ -1704,13 +1701,13 @@ const AdminPanelPage = {
       await navigator.share(shareData);
     } else {
       await navigator.clipboard.writeText(shareUrl);
-      alert("Clean URL copied to clipboard!");
+      alert("Link copied to clipboard!");
     }
   } catch (err) {
     console.warn("Share failed:", err);
   }
-},
 
+},
     /* =========================
        LOGOUT
     ========================= */
@@ -2974,8 +2971,7 @@ meta: { requiresAuth: true }
  name: 'PublicMetrics',
   component: PublicMetricsPage
 },*/
-{ path: '/public-metrics/:slug', component: PublicMetricsPage },//✅
-    
+{ path: '/public-metrics', component: PublicMetricsPage },//✅
     
   /* ---- Accessing Panel ---- */
 /*{
