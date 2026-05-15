@@ -2935,7 +2935,7 @@ router.beforeEach(async (to, from, next) => {
     ========================= */
 
     if (
-      (to.path === "/" || to.path === "/nexus-auth-v9-ak-7722") &&
+       to.path === "/nexus-auth-v9-ak-7722" &&
       isAuthenticated
     ) {
       return next("/admin");
