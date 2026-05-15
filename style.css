@@ -487,12 +487,20 @@ font-weight: bold;
   width: 100%;
   max-width: 540px;
 
-  background-image: url("/08. BRAND PATTERN.jpg");
-  background-color: rgba(0, 0, 0, 0.84);
-  background-blend-mode: overlay;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
 
   background-size: cover;
+
   background-position: center;
+
+  background-repeat: no-repeat;
+
+  background-attachment: fixed;
 
   border-radius: 24px;
 
@@ -924,12 +932,20 @@ font-weight: bold;
   margin: 0;
   padding: 20px;
   min-height: 100vh;
-  background-image: url("/08. BRAND PATTERN.jpg");
-  background-color: rgba(0, 0, 0, 0.68);
-  background-blend-mode: overlay;
+    background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
+
   background-size: cover;
-  background-attachment: fixed;
+
+  background-position: center;
+
   background-repeat: no-repeat;
+
+  background-attachment: fixed;
   box-sizing: border-box;
 }
 
@@ -1142,13 +1158,20 @@ font-weight: bold;
   margin: 0;
   padding: 20px;
   min-height: 100vh;
-  background-image: url("/08. BRAND PATTERN.jpg");
-  background-color: rgba(0, 0, 0, 0.68);
-  background-blend-mode: overlay;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
+
   background-size: cover;
+
   background-position: center;
-  background-attachment: fixed;
+
   background-repeat: no-repeat;
+
+  background-attachment: fixed;
   color: #000;
   font-family: 'Playfair Display', serif;
   box-sizing: border-box;
@@ -1447,13 +1470,21 @@ font-weight: bold;
   margin: 0;
   padding: 20px;
   min-height: 100vh;
-  background-image: url("/08. BRAND PATTERN.jpg");
-  background-color: rgba(0, 0, 0, 0.68);
-  background-blend-mode: overlay;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
+
   background-size: cover;
-  background-attachment: fixed;
+
+  background-position: center;
+
   background-repeat: no-repeat;
-  box-sizing: border-box;
+
+  background-attachment: fixed;
+ box-sizing: border-box;
   font-family: 'Segoe UI', sans-serif;
   color: white;
 }
@@ -1645,12 +1676,20 @@ font-weight: bold;
   margin: 0;
   padding: 20px;
   min-height: 100vh;
-  background-image: url("/08. BRAND PATTERN.jpg");
-  background-color: rgba(0, 0, 0, 0.72);
-  background-blend-mode: overlay;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
+
   background-size: cover;
-  background-attachment: fixed;
+
+  background-position: center;
+
   background-repeat: no-repeat;
+
+  background-attachment: fixed;
   font-family: 'Segoe UI', sans-serif;
   color: white;
   box-sizing: border-box;
@@ -1883,20 +1922,20 @@ font-weight: bold;
 
   padding: 25px 18px;
 
-  background-image:
-    url("/08. BRAND PATTERN.jpg");
-
-  background-color:
-    rgba(0,0,0,0.68);
-
-  background-blend-mode:
-    overlay;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.55)
+    ),
+    url("/IMG-20260510-WA0038.jpg");
 
   background-size: cover;
 
-  background-attachment: fixed;
+  background-position: center;
 
   background-repeat: no-repeat;
+
+  background-attachment: fixed;
 
   font-family:
     'Segoe UI', sans-serif;
@@ -3507,6 +3546,34 @@ body.modal-open {
 }
 
 /* =========================
+   TOAST NOTIFICATION
+========================= */
+
+.toast-notification {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(255, 215, 0, 0.12);
+  color: gold;
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  backdrop-filter: blur(14px);
+  padding: 12px 24px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 9999;
+  white-space: nowrap;
+}
+
+.toast-notification.toast-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* =========================
    MOBILE RESPONSIVENESS
 ========================= */
 
@@ -4784,3 +4851,74 @@ body.modal-open {
   }
 
 }
+
+
+/* =========================
+   CONFIRM MODAL
+========================= */
+
+.ak-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ak-confirm-modal {
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  padding: 32px 24px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  color: white;
+}
+
+.ak-confirm-modal h3 {
+  margin: 0 0 12px;
+  font-size: 1.2rem;
+  color: gold;
+}
+
+.ak-confirm-modal p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.ak-confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.ak-confirm-cancel {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.ak-confirm-delete {
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(220, 38, 38, 0.8);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.ak-confirm-delete:hover {
+  background: rgba(220, 38, 38, 1);
+}
+  

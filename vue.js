@@ -1,5 +1,4 @@
    
-/* -- what's left? data compression for carousel visuals, carousel visuals incorporation -- */
 
 const LandingPage = {
   template: `
@@ -70,18 +69,19 @@ const LandingPage = {
      
      
      <div class="akolace-content">
-      <h2><i class="fa-solid fa-leaf"></i>Welcome to AKOL’ACE Brew</h2>
-      <p>Revive Your Spirit, Reward Your Body.</p>
+      <h2><i class="fa-solid fa-leaf"></i>Welcome to AKOL'ACE Brew</h2>
+      <p>The Refined Relaxation Spirit.</p>
       <p>
-        More than a drink. A new direction. A new discipline. A new kind of desire.
-        One bottle at a time, we’re raising the standard — from casual refreshment to intentional nourishment.
+        Crafted with Science. Felt by You.
+        A richly blended palm wine infusion crafted with fruits and herbs for smooth relaxation, exotic taste, and elevated moments.
+        AKOL'ACE Brew is designed for people who want more than just a drink. It is for people who value calmness, premium experiences, connection, and culture.
       </p>
       
       <h3><i class="fa-solid fa-heart"></i>
- What You’ll Feel</h3>
+ What Makes AKOL'ACE Brew Different</h3>
       <p>
-        From the first sip, expect a subtle refreshing tingle, followed by a cool body ease, and a gradual rise in energy and mental clarity.
-        Whether it's for wellness, bonding, or bold performance, AKOL’ACE Brew gives you a reason to sip with intention.
+        AKOL'ACE Brew transforms traditional palm wine into a modern relaxation experience — refined for today's generation while preserving its cultural identity.
+        Infused with carefully selected fruits and botanicals, every bottle delivers a smooth, calming experience designed for enjoyment, connection, and premium lifestyle moments.
       </p>
       
       <h3><i class="fa-solid fa-box"></i> Available In</h3>
@@ -96,7 +96,7 @@ const LandingPage = {
       <h3><i class="fa-solid fa-crown"></i>
  For the Ones Who Know Better</h3>
       <blockquote>
-        “We aren’t trying to be just another drink — we are the better drink, for the better version of you.”
+        "We aren't trying to be just another drink — AKOL'ACE Brew is the better drink, for the better version of you. Proudly rooted in African heritage, refined for the modern premium lifestyle."
       </blockquote>
       
       <div class="cta-buttons">
@@ -109,7 +109,7 @@ const LandingPage = {
   <i class="fas fa-shopping-cart"></i>
   Pre-Order
 </button>
-       <a href="https://wa.me/2349068929746?text=Hi, I’d like to locate the nearest AKOL’ACE Brew depot. Can you help me?" target="_blank">
+       <a href="https://wa.me/2349068929746?text=Hi, I'd like to locate the nearest AKOL'ACE Brew depot. Can you help me?" target="_blank">
         <button><i class="fas fa-map-marker-alt"></i> Find a Depot</button>
        </a>
        
@@ -164,7 +164,7 @@ const LandingPage = {
 
       <div class="modal-badge">
         <i class="fas fa-cart-shopping"></i>
-        AKOL’ACE Brew Ordering
+        AKOL'ACE Brew Ordering
       </div>
 
       <h2>
@@ -243,7 +243,7 @@ const LandingPage = {
 
         <p>
           Order personal bottles, request nearby depot
-          assistance or chat directly with AKOL’ACE Brew.
+          assistance or chat directly with AKOL'ACE Brew.
         </p>
 
         <ul class="purchase-features">
@@ -1679,10 +1679,22 @@ const AdminPanelPage = {
   return `${hours} hours ago`;
 },
 
-    /* =========================
-       SHARE METRICS
-    ========================= */
+// ========================= 
+// TOAST UTILITY
+// =========================
 
+ showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast-notification";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("toast-visible"), 10);
+  setTimeout(() => {
+    toast.classList.remove("toast-visible");
+    setTimeout(() => toast.remove(), 400);
+  }, 2800);
+},
         /* =========================
        SHARE METRICS (LINK ONLY)
     ========================= */
@@ -1699,10 +1711,10 @@ const AdminPanelPage = {
   try {
     if (navigator.share) {
       await navigator.share(shareData);
-    } else {
-      await navigator.clipboard.writeText(shareUrl);
-      alert("Link copied to clipboard!");
-    }
+} else {
+  await navigator.clipboard.writeText(shareUrl);
+  this.showToast("Link copied to clipboard!");
+}
   } catch (err) {
     console.warn("Share failed:", err);
   }
@@ -1775,7 +1787,6 @@ const PreOrderInfoPage = {
       <!-- SEARCH -->
       <div class="search-box">
         <i class="fas fa-search"></i>
-
         <input
           type="text"
           v-model.trim="searchQuery"
@@ -1810,16 +1821,13 @@ const PreOrderInfoPage = {
 
           <!-- TOP -->
           <div class="order-top">
-
             <div class="business-avatar">
               {{ getInitial(order.business_name) }}
             </div>
-
             <div class="business-meta">
               <h3>{{ order.business_name }}</h3>
               <span>{{ order.business_type }}</span>
             </div>
-
           </div>
 
 
@@ -1882,12 +1890,8 @@ const PreOrderInfoPage = {
       </div>
 
 
-      <!-- =========================
-           ORDER MODAL (DECISION ROOM)
-      ========================== -->
-
+      <!-- ORDER MODAL -->
       <div v-if="showModal" class="order-modal-backdrop" @click="closeModal">
-
         <div class="order-modal" @click.stop>
 
           <h2>{{ selectedOrder.business_name }}</h2>
@@ -1897,7 +1901,6 @@ const PreOrderInfoPage = {
           </p>
 
           <div class="modal-grid">
-
             <p><b>Contact:</b> {{ selectedOrder.contact_person }}</p>
             <p><b>Phone:</b> {{ selectedOrder.phone }}</p>
             <p><b>Email:</b> {{ selectedOrder.email }}</p>
@@ -1905,282 +1908,279 @@ const PreOrderInfoPage = {
             <p><b>Cartons:</b> {{ selectedOrder.quantity_cartons }}</p>
             <p><b>Bottles:</b> {{ selectedOrder.total_bottles }}</p>
             <p><b>Address:</b> {{ selectedOrder.address }}</p>
-
           </div>
 
-<div class="modal-actions">
-  <button class="approve-btn" @click="approveOrder(selectedOrder)">
-    Approve
-  </button>
-  <button class="decline-btn" @click="declineOrder(selectedOrder)">
-    Decline
-  </button>
-  <button class="close-btn" @click="closeModal">
-    Close
-  </button>
-</div>
-
+          <div class="modal-actions">
+            <button class="approve-btn" @click="approveOrder">Approve</button>
+            <button class="decline-btn" @click="declineOrder">Decline</button>
+            <button class="close-btn" @click="closeModal">Close</button>
+          </div>
 
         </div>
+      </div>
 
+
+      <!-- DELETE CONFIRM MODAL -->
+      <div v-if="showDeleteModal" class="ak-confirm-overlay">
+        <div class="ak-confirm-modal">
+          <h3>Delete Request?</h3>
+          <p>This preorder will be permanently removed and cannot be recovered.</p>
+          <div class="ak-confirm-actions">
+            <button class="ak-confirm-cancel" @click="showDeleteModal = false">Cancel</button>
+            <button class="ak-confirm-delete" @click="confirmDelete">Delete</button>
+          </div>
+        </div>
       </div>
 
     </div>
   `,
-data() {
-  return {
-    loading: false,
-    searchQuery: "",
-    useMockData: false,
-    orders: [],
 
-    /* =========================
-       MODAL CONTROL (NEW)
-    ========================= */
-    selectedOrder: null,
-    showModal: false,
-
-    /* =========================
-       STATUS FLOW (NEW SYSTEM)
-    ========================= */
-    statusFlow: {
-      quote_requested: "Pending Review",
-      pending: "Pending Review",
-      approved: "Approved",
-      declined: "Declined"
-    }
-  };
-},
-
-computed: {
-
-  /* =========================
-     FILTERED ORDERS
-  ========================= */ 
-
-  filteredOrders() {
-  const q = this.searchQuery.toLowerCase().trim();
-  if (!q) return this.orders;
-
-  return this.orders.filter(o => {
-    return (
-      (o.business_name || "").toLowerCase().includes(q) ||
-      (o.contact_person || "").toLowerCase().includes(q) ||
-      (o.phone || "").toLowerCase().includes(q)
-    );
-  });
-},
-
-
-  /* =========================
-     DASHBOARD COUNTERS (NEW)
-  ========================= */
-  pendingCount() {
-    return this.orders.filter(o =>
-      o.status === "pending" || o.status === "quote_requested"
-    ).length;
-  },
-
-  approvedCount() {
-    return this.orders.filter(o => o.status === "approved").length;
-  },
-
-  declinedCount() {
-    return this.orders.filter(o => o.status === "declined").length;
-  }
-},
-
-async mounted() {
-  await this.fetchOrders();
-},
-
-methods: {
-
-  /* =========================
-     FETCH ORDERS
-  ========================= */
-  async fetchOrders() {
-    this.loading = true;
-
-    try {
-
-      if (this.useMockData) {
-        this.orders = this.getMockOrders();
-        return;
-      }
-
-      const { data, error } = await window.sb
-        .from("pre_orders")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      this.orders = data || [];
-
-    } catch (err) {
-      console.error("Fetch Error:", err);
-    } finally {
-      this.loading = false;
-    }
-  },
-   
-   
-approveOrder() {
-  if (this.selectedOrder) {
-    this.updateStatus(this.selectedOrder, "approved");
-  }
-},
-declineOrder() {
-  if (this.selectedOrder) {
-    this.updateStatus(this.selectedOrder, "declined");
-  }
-},
-
-
-
-  /* =========================
-     MOCK DATA
-  ========================= */
-  getMockOrders() {
-    return [
-      {
-        id: 1,
-        business_name: "Jendor Superstores",
-        contact_person: "Samuel",
-        phone: "+234812000000",
-        email: "jendor@gmail.com",
-        business_type: "Supermarket",
-        quantity_cartons: 20,
-        total_bottles: 240,
-        product_size: "370ml",
-        address: "Abeokuta Ogun State",
-        status: "quote_requested",
-        created_at: new Date()
-      },
-      {
-        id: 2,
-        business_name: "Rendezvous Hotel",
-        contact_person: "Philip",
-        phone: "+234809000000",
-        email: "hotel@gmail.com",
-        business_type: "Restaurant",
-        quantity_cartons: 12,
-        total_bottles: 144,
-        product_size: "370ml",
-        address: "Ibadan Oyo State",
-        status: "pending",
-        created_at: new Date()
-      },
-      {
-        id: 3,
-        business_name: "Aluminum Lounge",
-        contact_person: "David",
-        phone: "+234706000000",
-        email: "aluminum@gmail.com",
-        business_type: "Lounge",
-        quantity_cartons: 40,
-        total_bottles: 480,
-        product_size: "370ml",
-        address: "Lekki Lagos",
-        status: "approved",
-        created_at: new Date()
-      }
-    ];
-  },
-
-  /* =========================
-     MODAL CONTROL (NEW CORE FEATURE)
-  ========================= */
-
-  openOrder(order) {
-    this.selectedOrder = order;
-    this.showModal = true;
-  },
-
-  closeModal() {
-    this.selectedOrder = null;
-    this.showModal = false;
-  },
-
-  /* =========================
-     STATUS MANAGEMENT (NEW CORE SYSTEM)
-  ========================= */
-
-  async updateStatus(order, newStatus) {
-    try {
-
-      // optimistic UI update
-      order.status = newStatus;
-
-      if (!this.useMockData) {
-        const { error } = await window.sb
-          .from("pre_orders")
-          .update({ status: newStatus })
-          .eq("id", order.id);
-
-        if (error) throw error;
-      }
-
-      if (this.selectedOrder?.id === order.id) {
-        this.selectedOrder.status = newStatus;
-      }
-
-    } catch (err) {
-      console.error("Status Update Error:", err);
-    }
-  },
-
-  approveOrder(order) {
-    this.updateStatus(order, "approved");
-  },
-
-  declineOrder(order) {
-    this.updateStatus(order, "declined");
-  },
-
-  markPending(order) {
-    this.updateStatus(order, "pending");
-  },
-
-  /* =========================
-     UI HELPERS
-  ========================= */
-
-  getInitial(name = "") {
-    return name.charAt(0).toUpperCase();
-  },
-
-  formatStatus(status) {
-    return this.statusFlow[status] || status.replace("_", " ");
-  },
-
-  statusClass(status) {
+  data() {
     return {
-      "status-pending":
-        status === "pending" || status === "quote_requested",
+      loading: false,
+      searchQuery: "",
+      useMockData: false,
+      orders: [],
 
-      "status-approved": status === "approved",
+      selectedOrder: null,
+      showModal: false,
 
-      "status-declined": status === "declined"
+      showDeleteModal: false,
+      pendingDeleteId: null,
+
+      statusFlow: {
+        quote_requested: "Pending Review",
+        pending: "Pending Review",
+        approved: "Approved",
+        declined: "Declined"
+      }
     };
   },
 
-  /* =========================
-     ACTIONS
-  ========================= */
+  computed: {
 
-  callCustomer(phone) {
-    if (!phone) return;
-    window.location.href = `tel:${phone}`;
+    filteredOrders() {
+      const q = this.searchQuery.toLowerCase().trim();
+      if (!q) return this.orders;
+      return this.orders.filter(o => {
+        return (
+          (o.business_name || "").toLowerCase().includes(q) ||
+          (o.contact_person || "").toLowerCase().includes(q) ||
+          (o.phone || "").toLowerCase().includes(q)
+        );
+      });
+    },
+
+    pendingCount() {
+      return this.orders.filter(o =>
+        o.status === "pending" || o.status === "quote_requested"
+      ).length;
+    },
+
+    approvedCount() {
+      return this.orders.filter(o => o.status === "approved").length;
+    },
+
+    declinedCount() {
+      return this.orders.filter(o => o.status === "declined").length;
+    }
+
   },
 
-  emailCustomer(email) {
-    if (!email) return;
+  async mounted() {
+    await this.fetchOrders();
+  },
 
-    const subject = encodeURIComponent("AKOL'ACE Brew Wholesale Supply");
+  methods: {
 
-    const body = encodeURIComponent(
+    /* =========================
+       FETCH ORDERS
+    ========================= */
+    async fetchOrders() {
+      this.loading = true;
+      try {
+        if (this.useMockData) {
+          this.orders = this.getMockOrders();
+          return;
+        }
+        const { data, error } = await window.sb
+          .from("pre_orders")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        this.orders = data || [];
+      } catch (err) {
+        console.error("Fetch Error:", err);
+      } finally {
+        this.loading = false;
+      }
+    },
+
+
+    /* =========================
+       MOCK DATA
+    ========================= */
+    getMockOrders() {
+      return [
+        {
+          id: 1,
+          business_name: "Jendor Superstores",
+          contact_person: "Samuel",
+          phone: "+234812000000",
+          email: "jendor@gmail.com",
+          business_type: "Supermarket",
+          quantity_cartons: 20,
+          total_bottles: 240,
+          product_size: "370ml",
+          address: "Abeokuta Ogun State",
+          status: "quote_requested",
+          created_at: new Date()
+        },
+        {
+          id: 2,
+          business_name: "Rendezvous Hotel",
+          contact_person: "Philip",
+          phone: "+234809000000",
+          email: "hotel@gmail.com",
+          business_type: "Restaurant",
+          quantity_cartons: 12,
+          total_bottles: 144,
+          product_size: "370ml",
+          address: "Ibadan Oyo State",
+          status: "pending",
+          created_at: new Date()
+        },
+        {
+          id: 3,
+          business_name: "Aluminum Lounge",
+          contact_person: "David",
+          phone: "+234706000000",
+          email: "aluminum@gmail.com",
+          business_type: "Lounge",
+          quantity_cartons: 40,
+          total_bottles: 480,
+          product_size: "370ml",
+          address: "Lekki Lagos",
+          status: "approved",
+          created_at: new Date()
+        }
+      ];
+    },
+
+
+    /* =========================
+       MODAL CONTROL
+    ========================= */
+    openOrder(order) {
+      this.selectedOrder = order;
+      this.showModal = true;
+    },
+
+    closeModal() {
+      this.selectedOrder = null;
+      this.showModal = false;
+    },
+
+
+    /* =========================
+       STATUS MANAGEMENT
+    ========================= */
+    async updateStatus(order, newStatus) {
+      try {
+        order.status = newStatus;
+        if (!this.useMockData) {
+          const { error } = await window.sb
+            .from("pre_orders")
+            .update({ status: newStatus })
+            .eq("id", order.id);
+          if (error) throw error;
+        }
+        if (this.selectedOrder?.id === order.id) {
+          this.selectedOrder.status = newStatus;
+        }
+      } catch (err) {
+        console.error("Status Update Error:", err);
+      }
+    },
+
+    approveOrder() {
+      if (this.selectedOrder) {
+        this.updateStatus(this.selectedOrder, "approved");
+      }
+    },
+
+    declineOrder() {
+      if (this.selectedOrder) {
+        this.updateStatus(this.selectedOrder, "declined");
+      }
+    },
+
+    markPending(order) {
+      this.updateStatus(order, "pending");
+    },
+
+
+    /* =========================
+       DELETE
+    ========================= */
+    deleteOrder(id) {
+      this.pendingDeleteId = id;
+      this.showDeleteModal = true;
+    },
+
+    async confirmDelete() {
+      const id = this.pendingDeleteId;
+      this.showDeleteModal = false;
+      try {
+        if (!this.useMockData) {
+          const { error } = await window.sb
+            .from("pre_orders")
+            .delete()
+            .eq("id", id);
+          if (error) throw error;
+        }
+        this.orders = this.orders.filter(o => o.id !== id);
+        if (this.selectedOrder?.id === id) {
+          this.closeModal();
+        }
+      } catch (err) {
+        console.error("Delete Error:", err);
+      }
+    },
+
+
+    /* =========================
+       UI HELPERS
+    ========================= */
+    getInitial(name = "") {
+      return name.charAt(0).toUpperCase();
+    },
+
+    formatStatus(status) {
+      return this.statusFlow[status] || status.replace("_", " ");
+    },
+
+    statusClass(status) {
+      return {
+        "status-pending": status === "pending" || status === "quote_requested",
+        "status-approved": status === "approved",
+        "status-declined": status === "declined"
+      };
+    },
+
+
+    /* =========================
+       ACTIONS
+    ========================= */
+    callCustomer(phone) {
+      if (!phone) return;
+      window.location.href = `tel:${phone}`;
+    },
+
+    emailCustomer(email) {
+      if (!email) return;
+      const subject = encodeURIComponent("AKOL'ACE Brew Wholesale Supply");
+      const body = encodeURIComponent(
 `Hello,
 
 Thank you for your preorder request with AKOL'ACE Brew.
@@ -2189,39 +2189,13 @@ We will contact you shortly with pricing and logistics.
 
 Regards,
 AKOL'ACE Brew`
-    );
-
-    window.location.href =
-      `mailto:${email}?subject=${subject}&body=${body}`;
-  },
-
-  async deleteOrder(id) {
-    if (!confirm("Delete this preorder request?")) return;
-
-    try {
-
-      if (!this.useMockData) {
-        const { error } = await window.sb
-          .from("pre_orders")
-          .delete()
-          .eq("id", id);
-
-        if (error) throw error;
-      }
-
-      this.orders = this.orders.filter(o => o.id !== id);
-
-      if (this.selectedOrder?.id === id) {
-        this.closeModal();
-      }
-
-    } catch (err) {
-      console.error("Delete Error:", err);
+      );
+      window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
     }
-  }
-}
-};
 
+  }
+
+};
 
 
 
@@ -2491,6 +2465,19 @@ const HistoryPage = {
 
     </div>
 
+<!-- CONFIRM MODAL -->
+      <div v-if="showModal" class="ak-confirm-overlay">
+        <div class="ak-confirm-modal">
+          <h3>Are you sure?</h3>
+          <p>This will permanently delete all <strong>{{ pendingSection }}</strong> records. This cannot be undone.</p>
+          <div class="ak-confirm-actions">
+            <button class="ak-confirm-cancel" @click="showModal = false">Cancel</button>
+            <button class="ak-confirm-delete" @click="confirmClear">Delete</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   `,
@@ -2507,7 +2494,13 @@ const HistoryPage = {
 
       priceHistory: [],
 
-      preorderLogs: []
+      preorderLogs: [],
+      
+      showModal: false,
+      
+      pendingSection: "",
+      
+      
 
     };
 
@@ -2541,40 +2534,51 @@ const HistoryPage = {
       return name.charAt(0).toUpperCase();
     },
 
-    /* ============================================================
-       PERMANENT DELETE: Clears UI AND Database
-    ============================================================ */
-    async clearSection(section) {
-      const confirmMsg = `Are you sure? This will permanently delete ALL ${section} records. It cannot be undone.`;
-      if (!confirm(confirmMsg)) return;
+showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast-notification";
+  toast.textContent = message;
+  document.body.appendChild(toast);
 
-      this.loading = true;
+  setTimeout(() => toast.classList.add("toast-visible"), 10);
+  setTimeout(() => {
+    toast.classList.remove("toast-visible");
+    setTimeout(() => toast.remove(), 400);
+  }, 2800);
+},
+clearSection(section) {
+  this.pendingSection = section;
+  this.showModal = true;
+},
 
-      try {
-        if (!this.useMockData) {
-          // Deletes every row where the ID is not null (Standard Supabase wipe)
-          const { error } = await window.sb
-            .from("pre_orders")
-            .delete()
-            .neq("id", "00000000-0000-0000-0000-000000000000"); 
+async confirmClear() {
+  this.showModal = false;
+  this.loading = true;
 
-          if (error) throw error;
-        }
+  try {
+    if (!this.useMockData) {
+      const { error } = await window.sb
+        .from("pre_orders")
+        .delete()
+        .neq("id", "00000000-0000-0000-0000-000000000000");
 
-        // Clear UI locally
-        if (section === "orders" || section === "all") this.orderHistory = [];
-        if (section === "prices" || section === "all") this.priceHistory = [];
-        if (section === "preorders" || section === "all") this.preorderLogs = [];
+      if (error) throw error;
+    }
 
-        alert(`${section.toUpperCase()} cleared successfully.`);
+    const s = this.pendingSection;
+    if (s === "orders" || s === "all") this.orderHistory = [];
+    if (s === "prices" || s === "all") this.priceHistory = [];
+    if (s === "preorders" || s === "all") this.preorderLogs = [];
 
-      } catch (err) {
-        console.error("Wipe Error:", err);
-        alert("Failed to clear records: " + err.message);
-      } finally {
-        this.loading = false;
-      }
-    },
+    this.showToast(`${s.toUpperCase()} cleared successfully.`);
+
+  } catch (err) {
+    console.error("Wipe Error:", err);
+    this.showToast("Failed to clear records. Try again.");
+  } finally {
+    this.loading = false;
+  }
+},
 
     async clearAllHistory() {
       await this.clearSection("all");
@@ -2658,123 +2662,6 @@ const HistoryPage = {
 
 
 
-
-/*const PublicMetricsPage = {
-  template: `
-    <div id="public-metrics-page">
-      <div class="metrics-header">
-        <div class="brand-pill">
-          {{ displayBrand }}
-        </div>
-        <h1 class="title">Live Business Metrics</h1>
-        <p class="subtitle">Real-time snapshot of activity</p>
-      </div>
-
-      <div class="metrics-grid">
-        <div class="metric-card">
-          <h2>{{ totalOrders }}</h2>
-          <p>Packs Ordered</p>
-        </div>
-        <div class="metric-card">
-          <h2>₦{{ formattedRevenue }}</h2>
-          <p>Total Revenue</p>
-        </div>
-      </div>
-
-      <div class="activity-section">
-        <h3>Recent Activity</h3>
-        <div class="activity-list">
-          <div v-for="item in preorderInfo" :key="item.id" class="activity-item">
-            <div class="dot"></div>
-            <div class="activity-text">
-              <strong>{{ item.name }}</strong>
-              <span>{{ item.time }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-
-  data() {
-    return {
-      totalOrders: 0,
-      revenue: 0,
-      preorderInfo: []
-    };
-  },
-
-  computed: {
-    // Decodes the URL parameter (e.g., Akol'ace%20Brew -> Akol'ace Brew)
-    displayBrand() {
-  
-  const slug =
-    this.$route.params.slug;
-  
-  if (!slug)
-    return "Akol'ace Brew";
-  
-  return slug
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, l => l.toUpperCase());
-},
-
-    formattedRevenue() {
-      return this.revenue.toLocaleString();
-    }
-  },
-
-  async mounted() {
-    await this.loadMetrics();
-  },
-
-  methods: {
-    async loadMetrics() {
-  try {
-    // We now fetch from the 'public_metrics' VIEW instead of the 'pre_orders' TABLE
-    // This ensures phone numbers and emails are never exposed to the public browser
-    const { data, error } = await window.sb
-      .from("public_metrics")
-      .select("business_name, quantity_cartons, revenue_naira, created_at")
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-    const safeData = data || [];
-
-    // Calculate total packs (Sum of cartons)
-    this.totalOrders = safeData.reduce((sum, item) => {
-      return sum + Number(item.quantity_cartons || 0);
-    }, 0);
-
-    // Calculate total revenue
-    this.revenue = safeData.reduce((sum, item) => {
-      return sum + Number(item.revenue_naira || 0);
-    }, 0);
-
-    // Activity List (Last 6 entries)
-    this.preorderInfo = safeData.slice(0, 6).map((item, index) => ({
-      id: item.id || index,
-      name: item.business_name || "New Order",
-      time: this.timeAgo(item.created_at)
-    }));
-
-  } catch (err) {
-    console.error("View-only fetch error:", err);
-  }
-},
-
-    timeAgo(dateString) {
-      if (!dateString) return "Just now";
-      const seconds = Math.floor((new Date() - new Date(dateString)) / 1000);
-      
-      if (seconds < 60) return "Just now";
-      const hours = Math.floor(seconds / 3600);
-      if (hours < 1) return `${Math.floor(seconds / 60)} min ago`;
-      if (hours < 24) return `${hours} hours ago`;
-      return `${Math.floor(hours / 24)} days ago`;
-    }
-  }
-};*/
 
 
 const PublicMetricsPage = {
@@ -2966,19 +2853,11 @@ meta: { requiresAuth: true }
 
 
 /* ---- Dashboard Metrics ---- */
-/*{
-  path: '/',
- name: 'PublicMetrics',
-  component: PublicMetricsPage
-},*/
+
 { path: '/public-metrics', component: PublicMetricsPage },//✅
     
+    
   /* ---- Accessing Panel ---- */
-/*{
-  path: '/',
-  component: LoginPage,
-},
-*/
 
 {
   // This replaces /register with a high-security string
