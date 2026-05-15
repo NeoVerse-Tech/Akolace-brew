@@ -558,7 +558,7 @@ const FAQSPage = {
       <div class="panel">
         <p>
           Unlike regular wine, AKOL’ACE Brew is blended with natural extracts
-          that support vitality, digestion, circulation, and mental clarity.
+          that support vitality, digestion, circpreorder-inputendSHARESuperstoresendSHARESuperstoreslation, and mental clarity.
         </p>
       </div>
 
@@ -963,7 +963,7 @@ const PreOrderFormPage = {
     <div class="preorder-card">
       <div class="preorder-field">
         <label><i class="fas fa-building"></i> Business / Store Name</label>
-        <input type="text" v-model="form.business_name" placeholder="e.g. JendSHARESuperstores Abeokuta" class="preorder-input">
+        <input type="text" v-model="form.business_name" placeholder="e.g. Jendol Superstores Abeokuta" class="preorder-input">
       </div>
 
       <div class="preorder-field">
@@ -1343,8 +1343,9 @@ const AdminPanelPage = {
 <!-- HOME -->
 <button
   class="share-btn"
-  @click="$router.push('/')">
-  <i class="fas fa-house"></i> </button>
+  @click="goHome">
+  <i class="fas fa-house"></i>
+</button>
 
         <!-SHARE -->
         <button
@@ -1580,7 +1581,13 @@ const AdminPanelPage = {
 
 
   methods: {
+/* =========================
+   GO HOME
+========================= */
 
+goHome() {
+  window.location.href = '/';
+},
     /* =========================
        MOCK MODE
     ========================= */
