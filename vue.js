@@ -1343,16 +1343,13 @@ const AdminPanelPage = {
 <!-- HOME -->
 <button
   class="share-btn"
-  @click="$router.push('/')"
->
-  <i class="fas fa-house"></i> <
-/button>
+  @click="$router.push('/')">
+  <i class="fas fa-house"></i> </button>
 
         <!-SHARE -->
         <button
           class="share-btn"
-          @click="shareMetrics"
-        >
+          @click="shareMetrics">
           <i class="fas fa-share-nodes"></i>
         </button>
 
